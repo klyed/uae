@@ -6,8 +6,8 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import withStyles from "@material-ui/core/styles/withStyles";
 
 // core components
-import PagesHeader from "components/Header/PagesHeader.jsx";
-import Footer from "components/Footer/Footer.jsx";
+import UAEPagesHeader from "components/Header/UAEPagesHeader.jsx";
+import UAEFooter from "components/Footer/UAEFooter.jsx";
 
 import pagesRoutes from "routes/pages.jsx";
 
@@ -23,7 +23,7 @@ class Pages extends React.Component {
     const { classes, ...rest } = this.props;
     return (
       <div>
-        <PagesHeader {...rest} />
+        <UAEPagesHeader {...rest} />
         <div className={classes.wrapper} ref="wrapper">
           <div
             className={classes.fullPage}
@@ -48,7 +48,7 @@ class Pages extends React.Component {
                 );
               })}
             </Switch>
-            <Footer white />
+            <UAEFooter white />
           </div>
         </div>
       </div>
