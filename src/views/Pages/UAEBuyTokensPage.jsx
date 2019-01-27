@@ -32,7 +32,7 @@ class UAEBuyTokensPage extends React.Component {
   componentDidMount() {
     // we add a hidden class to the card and after 700 ms we delete it and the transition appears
     this.timeOutFunction = setTimeout(
-      function () {
+      function() {
         this.setState({ cardAnimation: "" });
       }.bind(this),
       500
@@ -43,7 +43,7 @@ class UAEBuyTokensPage extends React.Component {
     this.timeOutFunction = null;
   }
 
-  handleBuyTokens(e) {
+  handleBuyTokens() {
     alert("buying tokens!");
   }
 
@@ -68,17 +68,17 @@ class UAEBuyTokensPage extends React.Component {
                 <h3 className={classes.cardTitle}>1 TOKEN = 1 ETH</h3>
               </CardHeader>
               <CardBody>
-                <h4 className={classes.cardBody}>
+                <h4 className={classes.textCenter}>
                   Countdown until next price increase:
                 </h4>
-                <h3 className={classes.cardBody}>COUNTDOWN</h3>
+                <h3 className={classes.textCenter}>COUNTDOWN</h3>
               </CardBody>
-              <CardFooter stats>
-                <div className={classes.cardFooter}>
+              <CardFooter stats className={classes.justifyContentCenter}>
+                <div className={classes.textCenter}>
                   <Button
                     color="info"
                     size="lg"
-                    className={classes.marginRight}
+                    className={classes.buyTokensButton}
                     onClick={this.handleBuyTokens}
                   >
                     <PaymentIcon className={classes.icons} /> Buy Tokens

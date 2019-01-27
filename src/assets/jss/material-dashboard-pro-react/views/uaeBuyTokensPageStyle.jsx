@@ -49,12 +49,20 @@ const uaeBuyTokensPageStyle = theme => ({
     padding: "0.9375rem 0"
   },
   icons: {
-    width: "17px",
-    height: "17px",
-    marginRight: "10px !important"
+    width: "20px",
+    height: "20px",
+    fontSize: "20px",
+    marginRight: "10px !important",
+    marginBottom: "10px !important"
   },
   tooltip: {
     fontSize: "16px"
+  },
+  buyTokensButton: {
+    textAlign: "center",
+    margin: "auto",
+    borderRadius: "30px !important",
+    fontSize: "18px"
   }
 });
 
