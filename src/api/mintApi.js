@@ -1,6 +1,6 @@
 import cc from 'cryptocompare';
 import TokenMintERC20TokenJSON from '../contracts/TokenMintERC20Token.json';
-import TokenMintERC20MintableTokenJSON from '../contracts/TokenMintERC20MintableToken.json';
+import UAETokenJSON from '../contracts/UAEToken.json';
 import CMIRPDCrowdsaleJSON from '../contracts/CMIRPDCrowdsale.json';
 import Web3 from 'web3';
 import { BigNumber } from 'bignumber.js';
@@ -124,7 +124,7 @@ export function checkAccountFunds(account) {
 }
 
 
-function instantiateContract(tokenContract, name, symbol, decimals, totalSupply, tokenOwnerAccount, feeInETH, payingAccount) {
+function instantiateContract(tokenContract, name, symbol, decimals, totalSupply, tokenOwnerAccount, payingAccount) {
   return new Promise((accept, reject) => {
     // used for converting big number to string without scientific notation
     BigNumber.config({ EXPONENTIAL_AT: 100 });
@@ -133,11 +133,10 @@ function instantiateContract(tokenContract, name, symbol, decimals, totalSupply,
     });
     myContract.deploy({
       data: tokenContract.bytecode,
-      arguments: [name, symbol, decimals, new BigNumber(totalSupply * 10 ** decimals).toString(), tokenMintAccount, tokenOwnerAccount],
+      arguments: [name, symbol, decimals, new BigNumber(totalSupply * 10 ** decimals).toString(), tokenOwnerAccount],
     }).send({
       from: payingAccount,
       gas: 4712388,
-      value: web3.utils.toWei(feeInETH.toFixed(8).toString(), 'ether')
     }).on('error', (error) => {
       reject(error);
       return;
@@ -161,15 +160,16 @@ function instantiateContract(tokenContract, name, symbol, decimals, totalSupply,
  * @param {string}   payingAccount            address used for deployments, pays mining and service fees
  * @return {string}                           contract deployment transaction hash
  */
-export function mintTokens(tokenName, tokenSymbol, decimals, totalSupply, tokenType, tokenOwner, serviceFee, payingAccount) {
+/*export function mintTokens(tokenName, tokenSymbol, decimals, totalSupply, tokenType, tokenOwner, serviceFee, payingAccount) {
   return new Promise((accept, reject) => {
     getEthBalance(tokenOwner).then(accountBalance => {
       if (accountBalance - serviceFee - 0.02 > 0) {
         let tokenContract = TokenMintERC20TokenJSON;//tokenType === "erc20" ? TokenMintERC20TokenJSON : TokenMintERC223TokenJSON;
-        instantiateContract(tokenContract, tokenName, tokenSymbol, decimals, totalSupply, tokenOwner, serviceFee, payingAccount).then(txHash => {
+        instantiateContract(tokenContract, tokenName, tokenSymbol, decimals, totalSupply, tokenOwner, payingAccount).then(txHash => {
           accept(txHash);
           return;
         }).catch((e) => {
+          console.log(e)
           reject(new Error("Could not create contract."));
           return;
         });
@@ -182,9 +182,9 @@ export function mintTokens(tokenName, tokenSymbol, decimals, totalSupply, tokenT
       return;
     });
   });
-}
+}*/
 
-function instantiateCrowdsaleContracts(contractJSON, constructorArguments, contractCreator, serviceFeeETH) {
+function instantiateCrowdsaleContracts(contractJSON, constructorArguments, contractCreator) {
   return new Promise((accept, reject) => {
     let myContract = new web3.eth.Contract(contractJSON.abi, {
       from: contractCreator,
@@ -197,7 +197,6 @@ function instantiateCrowdsaleContracts(contractJSON, constructorArguments, contr
       from: contractCreator,
       gas: 6721975, // was 4712388 // max gas willing to pay, should not exceed block gas limit
       //gasPrice: '1',
-      value: web3.utils.toWei(serviceFeeETH.toFixed(8).toString(), 'ether')
     }).on('error', (error) => {
       reject(error);
       return;
@@ -211,24 +210,19 @@ function instantiateCrowdsaleContracts(contractJSON, constructorArguments, contr
 }
 
 // initial supply is in full tokens, not weis, (1000 tokens with 18 decimals would make initialSupply = 1000)
-function deployCrowdsaleToken(contractJSON, contractCreator, name, symbol, decimals, initialSupply, tokenOwner, serviceFeeETH) {
+function deployCrowdsaleToken(contractJSON, contractCreator, name, symbol, decimals, initialSupply, tokenOwner) {
   return new Promise((accept, reject) => {
     getEthBalance(tokenOwner).then(accountBalance => {
-      if (accountBalance - serviceFeeETH - 0.02 > 0) {
-        // used for converting big number to string without scientific notation
-        BigNumber.config({ EXPONENTIAL_AT: 100 });
-        instantiateCrowdsaleContracts(contractJSON, [name, symbol, decimals, new BigNumber(initialSupply * 10 ** decimals).toString(), tokenMintAccount, tokenOwner], contractCreator, serviceFeeETH).then(receipt => {
-          accept(receipt);
-          return;
-        }).catch((e) => {
-          console.log(e);
-          reject(new Error("Could not create crowdsale token contract."));
-          return;
-        });
-      } else {
-        reject(new Error("Account: " + contractCreator + " doesn't have enough funds to pay for crowdsale token deployment service."));
+      // used for converting big number to string without scientific notation
+      BigNumber.config({ EXPONENTIAL_AT: 100 });
+      instantiateCrowdsaleContracts(contractJSON, [name, symbol, decimals, new BigNumber(initialSupply * 10 ** decimals).toString(), tokenOwner], contractCreator).then(receipt => {
+        accept(receipt);
         return;
-      }
+      }).catch((e) => {
+        console.log(e);
+        reject(new Error("Could not create crowdsale token contract."));
+        return;
+      });
     }).catch((e) => {
       reject(new Error("Could not check token owner ETH funds."));
       return;
@@ -245,7 +239,7 @@ function deployCrowdsaleToken(contractJSON, contractCreator, name, symbol, decim
  */
 function transferMinterRole(tokenContractAddress, currentMinterAddress, newMinterAddress) {
   return new Promise((accept, reject) => {
-    let tokenInstance = new web3.eth.Contract(TokenMintERC20MintableTokenJSON.abi, tokenContractAddress);
+    let tokenInstance = new web3.eth.Contract(UAETokenJSON.abi, tokenContractAddress);
     tokenInstance.methods.addMinter(newMinterAddress).send({ from: currentMinterAddress }).then(() => {
       tokenInstance.methods.renounceMinter().send({ from: currentMinterAddress }).then(() => {
         accept();
@@ -262,54 +256,47 @@ function transferMinterRole(tokenContractAddress, currentMinterAddress, newMinte
 }
 
 /**
- * Deploys CMRPDCrowdsale contracts. First it deploys TokenMintERC20MintableToken,
- * and then CMRPDCrowdsale.
+ * Deploys CMIRPDCrowdsale contracts. First it deploys TokenMintERC20MintableToken,
+ * and then CMIRPDCrowdsale.
  *
  * @param {string}   owner                    address used for deployments, contract creator
  * @param {Object[]} tokenArgs                array containing arguments for TokenMintERC20MintableToken deployment
  * @param {Object[]} crowdsaleArgs            array containing arguments for CMRPDCrowdsale deployment
- * @param {Number}   tokenServiceFeeETH       service fee in ETH for TokenMintERC20MintableToken deployment
- * @param {Number}   crowdsaleServiceFeeETH   service fee in ETH for CMRPDCrowdsale deployment
  * @return {Object}                           object containing token and crowdsale receipts
  */
-export function deployCMRPDCrowdsale(owner, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH) {
+export function deployCMIRPDCrowdsale(owner, tokenArgs, crowdsaleArgs) {
   return new Promise((accept, reject) => {
     getEthBalance(owner).then(accountBalanceETH => {
-      if (accountBalanceETH - tokenServiceFeeETH - crowdsaleServiceFeeETH - 0.02 > 0) {
-        deployCrowdsaleToken(TokenMintERC20MintableTokenJSON, owner, ...tokenArgs, tokenServiceFeeETH).then(tokenReceipt => {
-          crowdsaleArgs[4] = tokenReceipt.contractAddress;
-          crowdsaleArgs[7] = tokenMintAccount;
-          instantiateCrowdsaleContracts(CMIRPDCrowdsaleJSON, crowdsaleArgs, owner, crowdsaleServiceFeeETH).then(crowdsaleReceipt => {
-            transferMinterRole(tokenReceipt.contractAddress, owner, crowdsaleReceipt.contractAddress).then(() => {
-              accept({
-                tokenReceipt: tokenReceipt,
-                crowdsaleReceipt: crowdsaleReceipt,
-              });
-              return;
-            }).catch(() => {
-              reject(new Error("Could not transfer minter role."));
-              return;
+      deployCrowdsaleToken(UAETokenJSON, owner, ...tokenArgs).then(tokenReceipt => {
+        crowdsaleArgs[5] = tokenReceipt.contractAddress;
+        instantiateCrowdsaleContracts(CMIRPDCrowdsaleJSON, crowdsaleArgs, owner).then(crowdsaleReceipt => {
+          transferMinterRole(tokenReceipt.contractAddress, owner, crowdsaleReceipt.contractAddress).then(() => {
+            accept({
+              tokenReceipt: tokenReceipt,
+              crowdsaleReceipt: crowdsaleReceipt,
             });
-          }).catch(() => {
-            reject(new Error("Could not deploy CMRPDCrowdsale contract."));
+            return;
+          }).catch((e) => {
+            console.log(e)
+            reject(new Error("Could not transfer minter role."));
             return;
           });
         }).catch(() => {
-          reject(new Error("Could not deploy TokenMintERC20MintableToken contract."));
+          reject(new Error("Could not deploy CMIRPDCrowdsale contract."));
           return;
         });
-      } else {
-        reject(new Error("Account: " + tokenArgs[0] + " doesn't have enough funds to pay for CMRPDCrowdsale deployment service."));
+      }).catch(() => {
+        reject(new Error("Could not deploy UAEToken contract."));
         return;
-      }
-    }).catch((e) => {
+      });
+    }).catch(() => {
       reject(new Error("Could not check token owner ETH funds."));
       return;
     });
   });
 }
 
-function instantiateUAEContracts(contractJSON, contractCreator) {
+/*function instantiateUAEContracts(contractJSON, contractCreator) {
   return new Promise((accept, reject) => {
     let myContract = new web3.eth.Contract(contractJSON.abi, {
       from: contractCreator,
@@ -354,4 +341,4 @@ export function deployUAECrowdsale(owner) {
       return;
     });
   });
-}
+}*/

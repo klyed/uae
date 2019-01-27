@@ -39,13 +39,6 @@ describe('mintApi integration tests', function () {
     });
   });
 
-  it('Get fee', (done) => {
-    mintApi.getFee().then(fee => {
-      expect(fee).to.be.greaterThan(0.01);
-      done();
-    });
-  });
-
   it('Get ETH balance with empty account', (done) => {
     mintApi.getEthBalance('0x1000000000000000000000000000000000000000').then(actual => {
       expect(web3.utils.fromWei(actual, 'ether')).to.be.eq('0');
@@ -71,33 +64,7 @@ describe('mintApi integration tests', function () {
     });
   });
 
-  it('Pay service fee when creating ERC20', (done) => {
-    let tokenType = 'erc20';
-    let serviceFee = 0.02;
-    mintApi.getEthBalance(tokenMintAccount).then(tokenMintBalanceBefore => {
-      mintApi.mintTokens(token.name, token.symbol, token.decimals, token.totalSupply, tokenType, accounts[0], serviceFee, accounts[0]).then(contractInstance => {
-        mintApi.getEthBalance(tokenMintAccount).then(tokenMintBalanceAfter => {
-          assert.closeTo(new Number(tokenMintBalanceAfter).valueOf(), new Number(tokenMintBalanceBefore).valueOf() + serviceFee, 0.000001)
-          done();
-        });
-      });
-    });
-  });
-
-  it('Pay service fee when creating ERC223', (done) => {
-    let tokenType = 'erc223';
-    let serviceFee = 0.0223;
-    mintApi.getEthBalance(tokenMintAccount).then(tokenMintBalanceBefore => {
-      mintApi.mintTokens(token.name, token.symbol, token.decimals, token.totalSupply, tokenType, accounts[0], serviceFee, accounts[0]).then(contractInstance => {
-        mintApi.getEthBalance(tokenMintAccount).then(tokenMintBalanceAfter => {
-          assert.closeTo(new Number(tokenMintBalanceAfter).valueOf(), new Number(tokenMintBalanceBefore).valueOf() + serviceFee, 0.000001)
-          done();
-        });
-      });
-    });
-  });
-
-  it('Mint ERC-20 tokens', (done) => {
+  /*it('Mint ERC-20 tokens', (done) => {
     let tokenType = 'erc20';
     let serviceFee = 0.01;
     mintApi.mintTokens(token.name, token.symbol, token.decimals, token.totalSupply, tokenType, accounts[0], serviceFee, accounts[0]).then(txHash => {
@@ -152,5 +119,5 @@ describe('mintApi integration tests', function () {
         done(new Error());
       });
     });
-  });
+  });*/
 });
