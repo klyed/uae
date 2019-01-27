@@ -40,9 +40,9 @@ describe('CMRIPDCrowdsale integration tests', function () {
     done();
   });
 
-  it('Deploy CMRPDCrowdsale contract', (done) => {
-    let crowdsaleArgs = [startTime, endTime, 500, icoMaker, null, web3.utils.toWei('1', 'ether'), web3.utils.toWei('0.1', 'ether'), null];
-    mintApi.deployCMRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
+  it('Deploy CMIRPDCrowdsale contract', (done) => {
+    let crowdsaleArgs = [startTime, endTime, 500, 400, icoMaker, null, web3.utils.toWei('1', 'ether'), web3.utils.toWei('0.1', 'ether')];
+    mintApi.deployCMIRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs).then(receipts => {
       expect(receipts.tokenReceipt.status).to.be.eq(true);
       expect(receipts.crowdsaleReceipt.status).to.be.eq(true);
       done();
@@ -51,75 +51,84 @@ describe('CMRIPDCrowdsale integration tests', function () {
     });
   });
 
-  it('CMRPDCrowdsale constructor - invalid opening time', (done) => {
+  it('CMIRPDCrowdsale constructor - invalid opening time', (done) => {
     let openingTime = Math.round((new Date().getTime() - 10000) / 1000); // 10 seconds in the past
-    let crowdsaleArgs = [openingTime, endTime, 1000, icoMaker, null, web3.utils.toWei('0.01', 'ether'), web3.utils.toWei('0.003', 'ether'), null];
-    mintApi.deployCMRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(() => {
-      done(new Error('CMRPDCrowdsale deployed with invalid opening time.'));
+    let crowdsaleArgs = [openingTime, endTime, 1000, 900, icoMaker, null, web3.utils.toWei('0.01', 'ether'), web3.utils.toWei('0.003', 'ether')];
+    mintApi.deployCMIRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(() => {
+      done(new Error('CMIRPDCrowdsale deployed with invalid opening time.'));
     }).catch(() => {
       done();
     });
   });
 
-  it('CMRPDCrowdsale constructor - invalid closing time', (done) => {
+  it('CMIRPDCrowdsale constructor - invalid closing time', (done) => {
     let closingTime = startTime;
-    let crowdsaleArgs = [startTime, closingTime, 1000, icoMaker, null, web3.utils.toWei('0.01', 'ether'), web3.utils.toWei('0.003', 'ether'), null];
-    mintApi.deployCMRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(() => {
-      done(new Error('CMRPDCrowdsale deployed with invalid closing time.'));
+    let crowdsaleArgs = [startTime, closingTime, 1000, 900, icoMaker, null, web3.utils.toWei('0.01', 'ether'), web3.utils.toWei('0.003', 'ether')];
+    mintApi.deployCMIRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(() => {
+      done(new Error('CMIRPDCrowdsale deployed with invalid closing time.'));
     }).catch(() => {
       done();
     });
   });
 
-  it('CMRPDCrowdsale constructor - invalid rate', (done) => {
-    let crowdsaleArgs = [startTime, endTime, 0, icoMaker, null, web3.utils.toWei('0.01', 'ether'), web3.utils.toWei('0.003', 'ether'), null];
-    mintApi.deployCMRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(() => {
-      done(new Error('CMRPDCrowdsale deployed with invalid rate (0).'));
+  it('CMIRPDCrowdsale constructor - invalid initial rate', (done) => {
+    let crowdsaleArgs = [startTime, endTime, 1, 1, icoMaker, null, web3.utils.toWei('0.01', 'ether'), web3.utils.toWei('0.003', 'ether')];
+    mintApi.deployCMIRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(() => {
+      done(new Error('CMIRPDCrowdsale deployed with invalid rate (0).'));
     }).catch(() => {
       done();
     });
   });
 
-  it('CMRPDCrowdsale constructor - invalid fundRaisingAddress', (done) => {
-    let crowdsaleArgs = [startTime, endTime, 0, 0x0, null, web3.utils.toWei('0.01', 'ether'), web3.utils.toWei('0.003', 'ether'), null];
-    mintApi.deployCMRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(() => {
-      done(new Error('CMRPDCrowdsale deployed with invalid fundRaisingAddress (0x0).'));
+  it('CMIRPDCrowdsale constructor - invalid final rate', (done) => {
+    let crowdsaleArgs = [startTime, endTime, 1, 0, icoMaker, null, web3.utils.toWei('0.01', 'ether'), web3.utils.toWei('0.003', 'ether')];
+    mintApi.deployCMIRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(() => {
+      done(new Error('CMIRPDCrowdsale deployed with invalid rate (0).'));
     }).catch(() => {
       done();
     });
   });
 
-  it('CMRPDCrowdsale constructor - invalid cap', (done) => {
-    let crowdsaleArgs = [startTime, endTime, 1000, icoMaker, null, web3.utils.toWei('0', 'ether'), web3.utils.toWei('0.003', 'ether'), null];
-    mintApi.deployCMRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(() => {
-      done(new Error('CMRPDCrowdsale deployed with invalid cap (0).'));
+  it('CMIRPDCrowdsale constructor - invalid fundRaisingAddress', (done) => {
+    let crowdsaleArgs = [startTime, endTime, 1000, 900, 0x0, null, web3.utils.toWei('0.01', 'ether'), web3.utils.toWei('0.003', 'ether')];
+    mintApi.deployCMIRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(() => {
+      done(new Error('CMIRPDCrowdsale deployed with invalid fundRaisingAddress (0x0).'));
     }).catch(() => {
       done();
     });
   });
 
-  it('CMRPDCrowdsale constructor - invalid goal', (done) => {
-    let crowdsaleArgs = [startTime, endTime, 1000, icoMaker, null, web3.utils.toWei('0.01', 'ether'), web3.utils.toWei('0', 'ether'), null];
-    mintApi.deployCMRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(() => {
-      done(new Error('CMRPDCrowdsale deployed with invalid goal (0).'));
+  it('CMIRPDCrowdsale constructor - invalid cap', (done) => {
+    let crowdsaleArgs = [startTime, endTime, 1000, 900, icoMaker, null, web3.utils.toWei('0', 'ether'), web3.utils.toWei('0.003', 'ether')];
+    mintApi.deployCMIRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(() => {
+      done(new Error('CMIRPDCrowdsale deployed with invalid cap (0).'));
+    }).catch(() => {
+      done();
+    });
+  });
+
+  it('CMIRPDCrowdsale constructor - invalid goal', (done) => {
+    let crowdsaleArgs = [startTime, endTime, 1000, 900, icoMaker, null, web3.utils.toWei('0.01', 'ether'), web3.utils.toWei('0', 'ether')];
+    mintApi.deployCMIRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(() => {
+      done(new Error('CMIRPDCrowdsale deployed with invalid goal (0).'));
     }).catch(() => {
       done();
     });
   });
 
 
-  it('CMRPDCrowdsale constructor - goal bigger than cap', (done) => {
-    let crowdsaleArgs = [startTime, endTime, 1000, icoMaker, null, web3.utils.toWei('0.01', 'ether'), web3.utils.toWei('0.011', 'ether'), null];
-    mintApi.deployCMRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(() => {
-      done(new Error('CMRPDCrowdsale deployed with goal bigger than cap.'));
+  it('CMIRPDCrowdsale constructor - goal bigger than cap', (done) => {
+    let crowdsaleArgs = [startTime, endTime, 1000, 900, icoMaker, null, web3.utils.toWei('0.01', 'ether'), web3.utils.toWei('0.011', 'ether')];
+    mintApi.deployCMIRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(() => {
+      done(new Error('CMIRPDCrowdsale deployed with goal bigger than cap.'));
     }).catch(() => {
       done();
     });
   });
 
-  it('CMRPDCrowdsale (Crowdsale) - token()', (done) => {
-    let crowdsaleArgs = [startTime, endTime, 1000, icoMaker, null, web3.utils.toWei('0.01', 'ether'), web3.utils.toWei('0.003', 'ether'), null];
-    mintApi.deployCMRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
+  it('CMIRPDCrowdsale (Crowdsale) - token()', (done) => {
+    let crowdsaleArgs = [startTime, endTime, 1000, 900, icoMaker, null, web3.utils.toWei('0.01', 'ether'), web3.utils.toWei('0.003', 'ether')];
+    mintApi.deployCMIRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
       let crowdsaleInstance = new web3.eth.Contract(CMIRPDCrowdsaleJSON.abi, receipts.crowdsaleReceipt.contractAddress);
       crowdsaleInstance.methods.token().call().then(tokenAddress => {
         expect(tokenAddress).to.be.eq(receipts.tokenReceipt.contractAddress);
@@ -130,9 +139,9 @@ describe('CMRIPDCrowdsale integration tests', function () {
     });
   });
 
-  it('CMRPDCrowdsale (Crowdsale) - wallet()', (done) => {
-    let crowdsaleArgs = [startTime, endTime, 1000, icoMaker, null, web3.utils.toWei('0.01', 'ether'), web3.utils.toWei('0.003', 'ether'), null];
-    mintApi.deployCMRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
+  it('CMIRPDCrowdsale (Crowdsale) - wallet()', (done) => {
+    let crowdsaleArgs = [startTime, endTime, 1000, 900, icoMaker, null, web3.utils.toWei('0.01', 'ether'), web3.utils.toWei('0.003', 'ether')];
+    mintApi.deployCMIRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
       let crowdsaleInstance = new web3.eth.Contract(CMIRPDCrowdsaleJSON.abi, receipts.crowdsaleReceipt.contractAddress);
       crowdsaleInstance.methods.wallet().call().then(wallet => {
         expect(wallet).to.be.eq(icoMaker);
@@ -143,11 +152,11 @@ describe('CMRIPDCrowdsale integration tests', function () {
     });
   });
 
-  it('CMRPDCrowdsale (Crowdsale) - rate()', (done) => {
-    let crowdsaleArgs = [startTime, endTime, 1000, icoMaker, null, web3.utils.toWei('0.01', 'ether'), web3.utils.toWei('0.003', 'ether'), null];
-    mintApi.deployCMRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
+  it('CMIRPDCrowdsale (Crowdsale) - initialRate()', (done) => {
+    let crowdsaleArgs = [startTime, endTime, 1000, 900, icoMaker, null, web3.utils.toWei('0.01', 'ether'), web3.utils.toWei('0.003', 'ether')];
+    mintApi.deployCMIRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
       let crowdsaleInstance = new web3.eth.Contract(CMIRPDCrowdsaleJSON.abi, receipts.crowdsaleReceipt.contractAddress);
-      crowdsaleInstance.methods.rate().call().then(rate => {
+      crowdsaleInstance.methods.initialRate().call().then(rate => {
         expect(rate).to.be.eq('1000');
         done();
       });
@@ -156,9 +165,22 @@ describe('CMRIPDCrowdsale integration tests', function () {
     });
   });
 
-  it('CMRPDCrowdsale (Crowdsale) - weiRaised()', (done) => {
-    let crowdsaleArgs = [startTime, endTime, 1000, icoMaker, null, web3.utils.toWei('0.01', 'ether'), web3.utils.toWei('0.003', 'ether'), null];
-    mintApi.deployCMRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
+  it('CMIRPDCrowdsale (Crowdsale) - finalRate()', (done) => {
+    let crowdsaleArgs = [startTime, endTime, 1000, 900, icoMaker, null, web3.utils.toWei('0.01', 'ether'), web3.utils.toWei('0.003', 'ether')];
+    mintApi.deployCMIRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
+      let crowdsaleInstance = new web3.eth.Contract(CMIRPDCrowdsaleJSON.abi, receipts.crowdsaleReceipt.contractAddress);
+      crowdsaleInstance.methods.finalRate().call().then(rate => {
+        expect(rate).to.be.eq('900');
+        done();
+      });
+    }).catch(e => {
+      done(new Error(e));
+    });
+  });
+
+  it('CMIRPDCrowdsale (Crowdsale) - weiRaised()', (done) => {
+    let crowdsaleArgs = [startTime, endTime, 1000, 900, icoMaker, null, web3.utils.toWei('0.01', 'ether'), web3.utils.toWei('0.003', 'ether')];
+    mintApi.deployCMIRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
 
       // wait 3 seconds before first investment
       let delay = ms => new Promise((resolve) => setTimeout(resolve, ms));
@@ -191,9 +213,9 @@ describe('CMRIPDCrowdsale integration tests', function () {
     });
   });
 
-  it('CMRPDCrowdsale (Crowdsale) - buyTokens() and withdrawTokens()', (done) => {
-    let crowdsaleArgs = [startTime, endTime, 1000, icoMaker, null, web3.utils.toWei('0.1', 'ether'), web3.utils.toWei('0.03', 'ether'), null];
-    mintApi.deployCMRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
+  it('CMIRPDCrowdsale (Crowdsale) - buyTokens() and withdrawTokens()', (done) => {
+    let crowdsaleArgs = [startTime, endTime, 1000, 999, icoMaker, null, web3.utils.toWei('0.1', 'ether'), web3.utils.toWei('0.03', 'ether')];
+    mintApi.deployCMIRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
       expect(receipts.tokenReceipt.status).to.be.eq(true);
       expect(receipts.crowdsaleReceipt.status).to.be.eq(true);
 
@@ -256,9 +278,9 @@ describe('CMRIPDCrowdsale integration tests', function () {
     });
   });
 
-  it('CMRPDCrowdsale (Crowdsale) - buyTokens() with invalid beneficiary', (done) => {
-    let crowdsaleArgs = [startTime, endTime, 1000, icoMaker, null, web3.utils.toWei('0.01', 'ether'), web3.utils.toWei('0.003', 'ether'), null];
-    mintApi.deployCMRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
+  it('CMIRPDCrowdsale (Crowdsale) - buyTokens() with invalid beneficiary', (done) => {
+    let crowdsaleArgs = [startTime, endTime, 1000, 900, icoMaker, null, web3.utils.toWei('0.01', 'ether'), web3.utils.toWei('0.003', 'ether')];
+    mintApi.deployCMIRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
 
       // wait 3 seconds before first investment
       let delay = ms => new Promise((resolve) => setTimeout(resolve, ms));
@@ -276,9 +298,9 @@ describe('CMRIPDCrowdsale integration tests', function () {
     });
   });
 
-  it('CMRPDCrowdsale (Crowdsale) - buyTokens() with invalid value', (done) => {
-    let crowdsaleArgs = [startTime, endTime, 1000, icoMaker, null, web3.utils.toWei('0.01', 'ether'), web3.utils.toWei('0.003', 'ether'), null];
-    mintApi.deployCMRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
+  it('CMIRPDCrowdsale (Crowdsale) - buyTokens() with invalid value', (done) => {
+    let crowdsaleArgs = [startTime, endTime, 1000, 900, icoMaker, null, web3.utils.toWei('0.01', 'ether'), web3.utils.toWei('0.003', 'ether')];
+    mintApi.deployCMIRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
 
       // wait 3 seconds before first investment
       let delay = ms => new Promise((resolve) => setTimeout(resolve, ms));
@@ -296,9 +318,9 @@ describe('CMRIPDCrowdsale integration tests', function () {
     });
   });
 
-  it('CMRPDCrowdsale (Crowdsale) - fallback function and withdrawTokens()', (done) => {
-    let crowdsaleArgs = [startTime, endTime, 1000, icoMaker, null, web3.utils.toWei('0.1', 'ether'), web3.utils.toWei('0.03', 'ether'), null];
-    mintApi.deployCMRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
+  it('CMIRPDCrowdsale (Crowdsale) - fallback function and withdrawTokens()', (done) => {
+    let crowdsaleArgs = [startTime, endTime, 1000, 999, icoMaker, null, web3.utils.toWei('0.1', 'ether'), web3.utils.toWei('0.03', 'ether')];
+    mintApi.deployCMIRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
       expect(receipts.tokenReceipt.status).to.be.eq(true);
       expect(receipts.crowdsaleReceipt.status).to.be.eq(true);
 
@@ -361,9 +383,9 @@ describe('CMRIPDCrowdsale integration tests', function () {
     });
   });
 
-  it('CMRPDCrowdsale (Capped) - cap()', (done) => {
-    let crowdsaleArgs = [startTime, endTime, 1000, icoMaker, null, web3.utils.toWei('0.2', 'ether'), web3.utils.toWei('0.1', 'ether'), null];
-    mintApi.deployCMRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
+  it('CMIRPDCrowdsale (Capped) - cap()', (done) => {
+    let crowdsaleArgs = [startTime, endTime, 1000, 900, icoMaker, null, web3.utils.toWei('0.2', 'ether'), web3.utils.toWei('0.1', 'ether')];
+    mintApi.deployCMIRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
       let crowdsaleInstance = new web3.eth.Contract(CMIRPDCrowdsaleJSON.abi, receipts.crowdsaleReceipt.contractAddress);
       crowdsaleInstance.methods.cap().call().then(cap => {
         expect(cap).to.be.eq(web3.utils.toWei('0.2', 'ether'));
@@ -374,9 +396,9 @@ describe('CMRIPDCrowdsale integration tests', function () {
     });
   });
 
-  it('CMRPDCrowdsale (Capped) - capReached()', (done) => {
-    let crowdsaleArgs = [startTime, endTime, 1000, icoMaker, null, web3.utils.toWei('0.1', 'ether'), web3.utils.toWei('0.01', 'ether'), null];
-    mintApi.deployCMRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
+  it('CMIRPDCrowdsale (Capped) - capReached()', (done) => {
+    let crowdsaleArgs = [startTime, endTime, 1000, 900, icoMaker, null, web3.utils.toWei('0.1', 'ether'), web3.utils.toWei('0.01', 'ether')];
+    mintApi.deployCMIRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
 
       // wait 3 seconds before first investment
       let delay = ms => new Promise((resolve) => setTimeout(resolve, ms));
@@ -410,9 +432,9 @@ describe('CMRIPDCrowdsale integration tests', function () {
     });
   });
 
-  it('CMRPDCrowdsale (Capped) - buyTokens() when cap reached', (done) => {
-    let crowdsaleArgs = [startTime, endTime, 1000, icoMaker, null, web3.utils.toWei('0.1', 'ether'), web3.utils.toWei('0.01', 'ether'), null];
-    mintApi.deployCMRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
+  it('CMIRPDCrowdsale (Capped) - buyTokens() when cap reached', (done) => {
+    let crowdsaleArgs = [startTime, endTime, 1000, 900, icoMaker, null, web3.utils.toWei('0.1', 'ether'), web3.utils.toWei('0.01', 'ether')];
+    mintApi.deployCMIRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
 
       // wait 3 seconds before first investment
       let delay = ms => new Promise((resolve) => setTimeout(resolve, ms));
@@ -436,9 +458,9 @@ describe('CMRIPDCrowdsale integration tests', function () {
     });
   });
 
-  it('CMRPDCrowdsale (Refundable) - goal()', (done) => {
-    let crowdsaleArgs = [startTime, endTime, 1000, icoMaker, null, web3.utils.toWei('0.2', 'ether'), web3.utils.toWei('0.1', 'ether'), null];
-    mintApi.deployCMRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
+  it('CMIRPDCrowdsale (Refundable) - goal()', (done) => {
+    let crowdsaleArgs = [startTime, endTime, 1000, 900, icoMaker, null, web3.utils.toWei('0.2', 'ether'), web3.utils.toWei('0.1', 'ether')];
+    mintApi.deployCMIRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
       let crowdsaleInstance = new web3.eth.Contract(CMIRPDCrowdsaleJSON.abi, receipts.crowdsaleReceipt.contractAddress);
       crowdsaleInstance.methods.goal().call().then(goal => {
         expect(goal).to.be.eq(web3.utils.toWei('0.1', 'ether'));
@@ -449,9 +471,9 @@ describe('CMRIPDCrowdsale integration tests', function () {
     });
   });
 
-  it('CMRPDCrowdsale (Refundable) - goalReached()', (done) => {
-    let crowdsaleArgs = [startTime, endTime, 1000, icoMaker, null, web3.utils.toWei('0.1', 'ether'), web3.utils.toWei('0.01', 'ether'), null];
-    mintApi.deployCMRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
+  it('CMIRPDCrowdsale (Refundable) - goalReached()', (done) => {
+    let crowdsaleArgs = [startTime, endTime, 1000, 900, icoMaker, null, web3.utils.toWei('0.1', 'ether'), web3.utils.toWei('0.01', 'ether')];
+    mintApi.deployCMIRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
 
       // wait 3 seconds before first investment
       let delay = ms => new Promise((resolve) => setTimeout(resolve, ms));
@@ -485,9 +507,9 @@ describe('CMRIPDCrowdsale integration tests', function () {
     });
   });
 
-  it('CMRPDCrowdsale (Refundable) - claimRefund()', (done) => {
-    let crowdsaleArgs = [startTime, endTime, 1000, icoMaker, null, web3.utils.toWei('0.1', 'ether'), web3.utils.toWei('0.07', 'ether'), null];
-    mintApi.deployCMRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
+  it('CMIRPDCrowdsale (Refundable) - claimRefund()', (done) => {
+    let crowdsaleArgs = [startTime, endTime, 1000, 900, icoMaker, null, web3.utils.toWei('0.1', 'ether'), web3.utils.toWei('0.07', 'ether')];
+    mintApi.deployCMIRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
 
       // check ETH balance before investment
       mintApi.getEthBalance(investor1).then(ethBalanceBefore => {
@@ -539,9 +561,9 @@ describe('CMRIPDCrowdsale integration tests', function () {
     });
   });
 
-  it('CMRPDCrowdsale (Refundable) - claimRefund() when not finalized', (done) => {
-    let crowdsaleArgs = [startTime, endTime, 1000, icoMaker, null, web3.utils.toWei('0.01', 'ether'), web3.utils.toWei('0.003', 'ether'), null];
-    mintApi.deployCMRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
+  it('CMIRPDCrowdsale (Refundable) - claimRefund() when not finalized', (done) => {
+    let crowdsaleArgs = [startTime, endTime, 1000, 900, icoMaker, null, web3.utils.toWei('0.01', 'ether'), web3.utils.toWei('0.003', 'ether')];
+    mintApi.deployCMIRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
 
       // wait 3 seconds before first investment
       let delay = ms => new Promise((resolve) => setTimeout(resolve, ms));
@@ -565,9 +587,9 @@ describe('CMRIPDCrowdsale integration tests', function () {
     });
   });
 
-  it('CMRPDCrowdsale (Refundable) - claimRefund() when finalized and goal reached', (done) => {
-    let crowdsaleArgs = [startTime, endTime, 1000, icoMaker, null, web3.utils.toWei('0.01', 'ether'), web3.utils.toWei('0.003', 'ether'), null];
-    mintApi.deployCMRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
+  it('CMIRPDCrowdsale (Refundable) - claimRefund() when finalized and goal reached', (done) => {
+    let crowdsaleArgs = [startTime, endTime, 1000, 900, icoMaker, null, web3.utils.toWei('0.01', 'ether'), web3.utils.toWei('0.003', 'ether')];
+    mintApi.deployCMIRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
 
       // wait 3 seconds before first investment
       let delay = ms => new Promise((resolve) => setTimeout(resolve, ms));
@@ -603,9 +625,9 @@ describe('CMRIPDCrowdsale integration tests', function () {
     });
   });
 
-  it('CMRPDCrowdsale (Finalizable) - finalize() and finalized()', (done) => {
-    let crowdsaleArgs = [startTime, endTime, 1000, icoMaker, null, web3.utils.toWei('0.01', 'ether'), web3.utils.toWei('0.003', 'ether'), null];
-    mintApi.deployCMRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
+  it('CMIRPDCrowdsale (Finalizable) - finalize() and finalized()', (done) => {
+    let crowdsaleArgs = [startTime, endTime, 1000, 900, icoMaker, null, web3.utils.toWei('0.01', 'ether'), web3.utils.toWei('0.003', 'ether')];
+    mintApi.deployCMIRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
 
       // wait 3 seconds before first investment
       let delay = ms => new Promise((resolve) => setTimeout(resolve, ms));
@@ -646,9 +668,9 @@ describe('CMRIPDCrowdsale integration tests', function () {
     });
   });
 
-  it('CMRPDCrowdsale (Finalizable) - finalize() when finalized', (done) => {
-    let crowdsaleArgs = [startTime, endTime, 1000, icoMaker, null, web3.utils.toWei('0.01', 'ether'), web3.utils.toWei('0.003', 'ether'), null];
-    mintApi.deployCMRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
+  it('CMIRPDCrowdsale (Finalizable) - finalize() when finalized', (done) => {
+    let crowdsaleArgs = [startTime, endTime, 1000, 900, icoMaker, null, web3.utils.toWei('0.01', 'ether'), web3.utils.toWei('0.003', 'ether')];
+    mintApi.deployCMIRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
 
       // wait 3 seconds before first investment
       let delay = ms => new Promise((resolve) => setTimeout(resolve, ms));
@@ -683,9 +705,9 @@ describe('CMRIPDCrowdsale integration tests', function () {
     });
   });
 
-  it('CMRPDCrowdsale (Finalizable) - finalize() when not closed', (done) => {
-    let crowdsaleArgs = [startTime, endTime, 1000, icoMaker, null, web3.utils.toWei('0.01', 'ether'), web3.utils.toWei('0.003', 'ether'), null];
-    mintApi.deployCMRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
+  it('CMIRPDCrowdsale (Finalizable) - finalize() when not closed', (done) => {
+    let crowdsaleArgs = [startTime, endTime, 1000, 900, icoMaker, null, web3.utils.toWei('0.01', 'ether'), web3.utils.toWei('0.003', 'ether')];
+    mintApi.deployCMIRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
 
       // wait 3 seconds before first investment
       let delay = ms => new Promise((resolve) => setTimeout(resolve, ms));
@@ -709,9 +731,9 @@ describe('CMRIPDCrowdsale integration tests', function () {
     });
   });
 
-  it('CMRPDCrowdsale (Finalizable) - buyTokens() when finalized', (done) => {
-    let crowdsaleArgs = [startTime, endTime, 1000, icoMaker, null, web3.utils.toWei('0.01', 'ether'), web3.utils.toWei('0.003', 'ether'), null];
-    mintApi.deployCMRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
+  it('CMIRPDCrowdsale (Finalizable) - buyTokens() when finalized', (done) => {
+    let crowdsaleArgs = [startTime, endTime, 1000, 900, icoMaker, null, web3.utils.toWei('0.01', 'ether'), web3.utils.toWei('0.003', 'ether')];
+    mintApi.deployCMIRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
 
       // wait 3 seconds before first investment
       let delay = ms => new Promise((resolve) => setTimeout(resolve, ms));
@@ -747,9 +769,9 @@ describe('CMRIPDCrowdsale integration tests', function () {
     });
   });
 
-  it('CMRPDCrowdsale (PostDelivery) - withdrawTokens() when not closed', (done) => {
-    let crowdsaleArgs = [startTime, endTime, 1000, icoMaker, null, web3.utils.toWei('0.01', 'ether'), web3.utils.toWei('0.003', 'ether'), null];
-    mintApi.deployCMRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
+  it('CMIRPDCrowdsale (PostDelivery) - withdrawTokens() when not closed', (done) => {
+    let crowdsaleArgs = [startTime, endTime, 1000, 900, icoMaker, null, web3.utils.toWei('0.01', 'ether'), web3.utils.toWei('0.003', 'ether')];
+    mintApi.deployCMIRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
 
       // wait 3 seconds before first investment
       let delay = ms => new Promise((resolve) => setTimeout(resolve, ms));
@@ -775,9 +797,9 @@ describe('CMRIPDCrowdsale integration tests', function () {
     });
   });
 
-  it('CMRPDCrowdsale (PostDelivery) - withdrawTokens() when balance is 0', (done) => {
-    let crowdsaleArgs = [startTime, endTime, 1000, icoMaker, null, web3.utils.toWei('0.01', 'ether'), web3.utils.toWei('0.003', 'ether'), null];
-    mintApi.deployCMRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
+  it('CMIRPDCrowdsale (PostDelivery) - withdrawTokens() when balance is 0', (done) => {
+    let crowdsaleArgs = [startTime, endTime, 1000, 900, icoMaker, null, web3.utils.toWei('0.01', 'ether'), web3.utils.toWei('0.003', 'ether')];
+    mintApi.deployCMIRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
 
       // wait 3 seconds before first investment
       let delay = ms => new Promise((resolve) => setTimeout(resolve, ms));
@@ -805,9 +827,9 @@ describe('CMRIPDCrowdsale integration tests', function () {
     });
   });
 
-  it('CMRPDCrowdsale (PostDelivery) - balanceOf()', (done) => {
-    let crowdsaleArgs = [startTime, endTime, 1000, icoMaker, null, web3.utils.toWei('0.01', 'ether'), web3.utils.toWei('0.003', 'ether'), null];
-    mintApi.deployCMRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
+  it('CMIRPDCrowdsale (PostDelivery) - balanceOf()', (done) => {
+    let crowdsaleArgs = [startTime, endTime, 1000, 999, icoMaker, null, web3.utils.toWei('0.01', 'ether'), web3.utils.toWei('0.003', 'ether')];
+    mintApi.deployCMIRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
 
       // wait 3 seconds before first investment
       let delay = ms => new Promise((resolve) => setTimeout(resolve, ms));
@@ -839,9 +861,9 @@ describe('CMRIPDCrowdsale integration tests', function () {
     });
   });
 
-  it('CMRPDCrowdsale (Timed) - openingTime() and closingTime()', (done) => {
-    let crowdsaleArgs = [startTime, endTime, 1000, icoMaker, null, web3.utils.toWei('0.01', 'ether'), web3.utils.toWei('0.003', 'ether'), null];
-    mintApi.deployCMRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
+  it('CMIRPDCrowdsale (Timed) - openingTime() and closingTime()', (done) => {
+    let crowdsaleArgs = [startTime, endTime, 1000, 900, icoMaker, null, web3.utils.toWei('0.01', 'ether'), web3.utils.toWei('0.003', 'ether')];
+    mintApi.deployCMIRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
 
       // check opening time
       let crowdsaleInstance = new web3.eth.Contract(CMIRPDCrowdsaleJSON.abi, receipts.crowdsaleReceipt.contractAddress);
@@ -859,9 +881,9 @@ describe('CMRIPDCrowdsale integration tests', function () {
     });
   });
 
-  it('CMRPDCrowdsale (Timed) - isOpen()', (done) => {
-    let crowdsaleArgs = [startTime, endTime, 1000, icoMaker, null, web3.utils.toWei('0.01', 'ether'), web3.utils.toWei('0.003', 'ether'), null];
-    mintApi.deployCMRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
+  it('CMIRPDCrowdsale (Timed) - isOpen()', (done) => {
+    let crowdsaleArgs = [startTime, endTime, 1000, 900, icoMaker, null, web3.utils.toWei('0.01', 'ether'), web3.utils.toWei('0.003', 'ether')];
+    mintApi.deployCMIRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
 
       // call isOpen before opening time
       let crowdsaleInstance = new web3.eth.Contract(CMIRPDCrowdsaleJSON.abi, receipts.crowdsaleReceipt.contractAddress);
@@ -906,9 +928,9 @@ describe('CMRIPDCrowdsale integration tests', function () {
     });
   });
 
-  it('CMRPDCrowdsale (Timed) - hasClosed()', (done) => {
-    let crowdsaleArgs = [startTime, endTime, 1000, icoMaker, null, web3.utils.toWei('0.01', 'ether'), web3.utils.toWei('0.003', 'ether'), null];
-    mintApi.deployCMRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
+  it('CMIRPDCrowdsale (Timed) - hasClosed()', (done) => {
+    let crowdsaleArgs = [startTime, endTime, 1000, 900, icoMaker, null, web3.utils.toWei('0.01', 'ether'), web3.utils.toWei('0.003', 'ether')];
+    mintApi.deployCMIRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
 
       // call isOpen before opening time
       let crowdsaleInstance = new web3.eth.Contract(CMIRPDCrowdsaleJSON.abi, receipts.crowdsaleReceipt.contractAddress);
@@ -953,9 +975,9 @@ describe('CMRIPDCrowdsale integration tests', function () {
     });
   });
 
-  it('CMRPDCrowdsale (Timed) - buyTokens() before open', (done) => {
-    let crowdsaleArgs = [startTime, endTime, 1000, icoMaker, null, web3.utils.toWei('0.01', 'ether'), web3.utils.toWei('0.003', 'ether'), null];
-    mintApi.deployCMRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
+  it('CMIRPDCrowdsale (Timed) - buyTokens() before open', (done) => {
+    let crowdsaleArgs = [startTime, endTime, 1000, 900, icoMaker, null, web3.utils.toWei('0.01', 'ether'), web3.utils.toWei('0.003', 'ether')];
+    mintApi.deployCMIRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
 
       // call buyTokens function before opening time
       let crowdsaleInstance = new web3.eth.Contract(CMIRPDCrowdsaleJSON.abi, receipts.crowdsaleReceipt.contractAddress);
@@ -969,9 +991,9 @@ describe('CMRIPDCrowdsale integration tests', function () {
     });
   });
 
-  it('CMRPDCrowdsale (Timed) - buyTokens() after close', (done) => {
-    let crowdsaleArgs = [startTime, startTime + 1, 1000, icoMaker, null, web3.utils.toWei('0.01', 'ether'), web3.utils.toWei('0.003', 'ether'), null];
-    mintApi.deployCMRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
+  it('CMIRPDCrowdsale (Timed) - buyTokens() after close', (done) => {
+    let crowdsaleArgs = [startTime, startTime + 1, 1000, 900, icoMaker, null, web3.utils.toWei('0.01', 'ether'), web3.utils.toWei('0.003', 'ether')];
+    mintApi.deployCMIRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
 
       // wait a few seconds so that crowdsale is closed (timed crowdsale)
       let delay = ms => new Promise((resolve) => setTimeout(resolve, ms));
