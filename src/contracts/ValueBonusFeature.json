@@ -1,0 +1,2962 @@
+{
+  "contractName": "ValueBonusFeature",
+  "abi": [
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "newPercentRate",
+          "type": "uint256"
+        }
+      ],
+      "name": "setPercentRate",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "percentRate",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "valueBonuses",
+      "outputs": [
+        {
+          "name": "from",
+          "type": "uint256"
+        },
+        {
+          "name": "bonus",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "transferOwnership",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "previousOwner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnershipTransferred",
+      "type": "event"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "from",
+          "type": "uint256"
+        },
+        {
+          "name": "bonus",
+          "type": "uint256"
+        }
+      ],
+      "name": "addValueBonus",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "tokens",
+          "type": "uint256"
+        },
+        {
+          "name": "_invested",
+          "type": "uint256"
+        }
+      ],
+      "name": "getValueBonusTokens",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "value",
+          "type": "uint256"
+        }
+      ],
+      "name": "getValueBonus",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x60806040526064600155336000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055506106be806100586000396000f30060806040526004361061008e576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063480b890d1461009357806354717ea9146100c05780638090114f1461010b5780638da5cb5b14610136578063af78facf1461018d578063b8a4db81146101d5578063cd7e31841461020c578063f2fde38b1461024d575b600080fd5b34801561009f57600080fd5b506100be60048036038101908080359060200190929190505050610290565b005b3480156100cc57600080fd5b506100f560048036038101908080359060200190929190803590602001909291905050506102f5565b6040518082815260200191505060405180910390f35b34801561011757600080fd5b50610120610346565b6040518082815260200191505060405180910390f35b34801561014257600080fd5b5061014b61034c565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b34801561019957600080fd5b506101b860048036038101908080359060200190929190505050610371565b604051808381526020018281526020019250505060405180910390f35b3480156101e157600080fd5b5061020a60048036038101908080359060200190929190803590602001909291905050506103a4565b005b34801561021857600080fd5b506102376004803603810190808035906020019092919050505061045c565b6040518082815260200191505060405180910390f35b34801561025957600080fd5b5061028e600480360381019080803573ffffffffffffffffffffffffffffffffffffffff1690602001909291905050506104e7565b005b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff161415156102eb57600080fd5b8060018190555050565b6000806103018361045c565b90506000811415610315576000915061033f565b61033c60015461032e838761063c90919063ffffffff16565b61067790919063ffffffff16565b91505b5092915050565b60015481565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b60028181548110151561038057fe5b90600052602060002090600202016000915090508060000154908060010154905082565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff161415156103ff57600080fd5b60026040805190810160405280848152602001838152509080600181540180825580915050906001820390600052602060002090600202016000909192909190915060008201518160000155602082015181600101555050505050565b6000806000809150600090505b6002805490508110156104dc5760028181548110151561048557fe5b906000526020600020906002020160000154841015156104c7576002818154811015156104ae57fe5b90600052602060002090600202016001015491506104cf565b8192506104e0565b8080600101915050610469565b8192505b5050919050565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614151561054257600080fd5b600073ffffffffffffffffffffffffffffffffffffffff168173ffffffffffffffffffffffffffffffffffffffff161415151561057e57600080fd5b8073ffffffffffffffffffffffffffffffffffffffff166000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff167f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e060405160405180910390a3806000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555050565b60008060008414156106515760009150610670565b828402905082848281151561066257fe5b0414151561066c57fe5b8091505b5092915050565b600080828481151561068557fe5b04905080915050929150505600a165627a7a72305820fb87a5e26cb4be2c95fd925545acc85c32128952139217a73e2c93b7008617720029",
+  "deployedBytecode": "0x60806040526004361061008e576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063480b890d1461009357806354717ea9146100c05780638090114f1461010b5780638da5cb5b14610136578063af78facf1461018d578063b8a4db81146101d5578063cd7e31841461020c578063f2fde38b1461024d575b600080fd5b34801561009f57600080fd5b506100be60048036038101908080359060200190929190505050610290565b005b3480156100cc57600080fd5b506100f560048036038101908080359060200190929190803590602001909291905050506102f5565b6040518082815260200191505060405180910390f35b34801561011757600080fd5b50610120610346565b6040518082815260200191505060405180910390f35b34801561014257600080fd5b5061014b61034c565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b34801561019957600080fd5b506101b860048036038101908080359060200190929190505050610371565b604051808381526020018281526020019250505060405180910390f35b3480156101e157600080fd5b5061020a60048036038101908080359060200190929190803590602001909291905050506103a4565b005b34801561021857600080fd5b506102376004803603810190808035906020019092919050505061045c565b6040518082815260200191505060405180910390f35b34801561025957600080fd5b5061028e600480360381019080803573ffffffffffffffffffffffffffffffffffffffff1690602001909291905050506104e7565b005b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff161415156102eb57600080fd5b8060018190555050565b6000806103018361045c565b90506000811415610315576000915061033f565b61033c60015461032e838761063c90919063ffffffff16565b61067790919063ffffffff16565b91505b5092915050565b60015481565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b60028181548110151561038057fe5b90600052602060002090600202016000915090508060000154908060010154905082565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff161415156103ff57600080fd5b60026040805190810160405280848152602001838152509080600181540180825580915050906001820390600052602060002090600202016000909192909190915060008201518160000155602082015181600101555050505050565b6000806000809150600090505b6002805490508110156104dc5760028181548110151561048557fe5b906000526020600020906002020160000154841015156104c7576002818154811015156104ae57fe5b90600052602060002090600202016001015491506104cf565b8192506104e0565b8080600101915050610469565b8192505b5050919050565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614151561054257600080fd5b600073ffffffffffffffffffffffffffffffffffffffff168173ffffffffffffffffffffffffffffffffffffffff161415151561057e57600080fd5b8073ffffffffffffffffffffffffffffffffffffffff166000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff167f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e060405160405180910390a3806000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555050565b60008060008414156106515760009150610670565b828402905082848281151561066257fe5b0414151561066c57fe5b8091505b5092915050565b600080828481151561068557fe5b04905080915050929150505600a165627a7a72305820fb87a5e26cb4be2c95fd925545acc85c32128952139217a73e2c93b7008617720029",
+  "sourceMap": "108:863:10:-;;;128:3:13;102:29;;518:10:12;510:5;;:18;;;;;;;;;;;;;;;;;;108:863:10;;;;;;",
+  "deployedSourceMap": "108:863:10:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;138:103:13;;8:9:-1;5:2;;;30:1;27;20:12;5:2;138:103:13;;;;;;;;;;;;;;;;;;;;;;;;;;421:243:10;;8:9:-1;5:2;;;30:1;27;20:12;5:2;421:243:10;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;102:29:13;;8:9:-1;5:2;;;30:1;27;20:12;5:2;102:29:13;;;;;;;;;;;;;;;;;;;;;;;245:20:12;;8:9:-1;5:2;;;30:1;27;20:12;5:2;245:20:12;;;;;;;;;;;;;;;;;;;;;;;;;;;258:32:10;;8:9:-1;5:2;;;30:1;27;20:12;5:2;258:32:10;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;297:118;;8:9:-1;5:2;;;30:1;27;20:12;5:2;297:118:10;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;670:298;;8:9:-1;5:2;;;30:1;27;20:12;5:2;670:298:10;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;856:178:12;;8:9:-1;5:2;;;30:1;27;20:12;5:2;856:178:12;;;;;;;;;;;;;;;;;;;;;;;;;;;;138:103:13;669:5:12;;;;;;;;;;;655:19;;:10;:19;;;647:28;;;;;;;;221:14:13;207:11;:28;;;;138:103;:::o;421:243:10:-;499:4;512:15;530:24;544:9;530:13;:24::i;:::-;512:42;;578:1;564:10;:15;561:45;;;597:1;590:8;;;;561:45;619:39;646:11;;619:22;630:10;619:6;:10;;:22;;;;:::i;:::-;:26;;:39;;;;:::i;:::-;612:46;;421:243;;;;;;:::o;102:29:13:-;;;;:::o;245:20:12:-;;;;;;;;;;;;;:::o;258:32:10:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;297:118::-;669:5:12;;;;;;;;;;;655:19;;:10;:19;;;647:28;;;;;;;;367:12:10;385:23;;;;;;;;;396:4;385:23;;;;402:5;385:23;;;367:42;;39:1:-1;33:3;27:10;23:18;57:10;52:3;45:23;79:10;72:17;;0:93;367:42:10;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;297:118;;:::o;670:298::-;725:4;738:10;763:6;751:1;738:14;;772:1;763:10;;759:185;779:12;:19;;;;775:1;:23;759:185;;;826:12;839:1;826:15;;;;;;;;;;;;;;;;;;;;:20;;;817:5;:29;;814:123;;;867:12;880:1;867:15;;;;;;;;;;;;;;;;;;;;:21;;;859:29;;814:123;;;922:5;915:12;;;;814:123;800:3;;;;;;;759:185;;;957:5;950:12;;670:298;;;;;;:::o;856:178:12:-;669:5;;;;;;;;;;;655:19;;:10;:19;;;647:28;;;;;;;;953:1;933:22;;:8;:22;;;;925:31;;;;;;;;996:8;968:37;;989:5;;;;;;;;;;;968:37;;;;;;;;;;;;1020:8;1012:5;;:16;;;;;;;;;;;;;;;;;;856:178;:::o;144:180:11:-;202:7;261:9;227:1;222;:6;218:37;;;246:1;239:8;;;;218:37;277:1;273;:5;261:17;;301:1;296;292;:5;;;;;;;;:10;285:18;;;;;;317:1;310:8;;144:180;;;;;;:::o;330:270::-;388:7;479:9;495:1;491;:5;;;;;;;;479:17;;593:1;586:8;;330:270;;;;;:::o",
+  "source": "pragma solidity ^0.4.24;\r\n\r\nimport '../ownable/PercentRateProvider.sol';\r\nimport '../math/SafeMath.sol';\r\n\r\ncontract ValueBonusFeature is PercentRateProvider {\r\n\r\n  using SafeMath for uint;\r\n\r\n  struct ValueBonus {\r\n    uint from;\r\n    uint bonus;\r\n  }\r\n\r\n  ValueBonus[] public valueBonuses;\r\n\r\n  function addValueBonus(uint from, uint bonus) public onlyOwner {\r\n    valueBonuses.push(ValueBonus(from, bonus));\r\n  }\r\n\r\n  function getValueBonusTokens(uint tokens, uint _invested) public view returns(uint) {\r\n    uint valueBonus = getValueBonus(_invested);\r\n    if(valueBonus == 0) {\r\n      return 0;\r\n    }\r\n    return tokens.mul(valueBonus).div(percentRate);\r\n  }\r\n\r\n  function getValueBonus(uint value) public view returns(uint) {\r\n    uint bonus = 0;\r\n    for(uint i = 0; i < valueBonuses.length; i++) {\r\n      if(value >= valueBonuses[i].from) {\r\n        bonus = valueBonuses[i].bonus;\r\n      } else {\r\n        return bonus;\r\n      }\r\n    }\r\n    return bonus;\r\n  }\r\n}",
+  "sourcePath": "D:\\dev\\uae\\contracts\\feature\\ValueBonusFeature.sol",
+  "ast": {
+    "absolutePath": "/D/dev/uae/contracts/feature/ValueBonusFeature.sol",
+    "exportedSymbols": {
+      "ValueBonusFeature": [
+        1600
+      ]
+    },
+    "id": 1601,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1489,
+        "literals": [
+          "solidity",
+          "^",
+          "0.4",
+          ".24"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:10"
+      },
+      {
+        "absolutePath": "/D/dev/uae/contracts/ownable/PercentRateProvider.sol",
+        "file": "../ownable/PercentRateProvider.sol",
+        "id": 1490,
+        "nodeType": "ImportDirective",
+        "scope": 1601,
+        "sourceUnit": 1776,
+        "src": "28:44:10",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/D/dev/uae/contracts/math/SafeMath.sol",
+        "file": "../math/SafeMath.sol",
+        "id": 1491,
+        "nodeType": "ImportDirective",
+        "scope": 1601,
+        "sourceUnit": 1699,
+        "src": "74:30:10",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 1492,
+              "name": "PercentRateProvider",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 1775,
+              "src": "138:19:10",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_PercentRateProvider_$1775",
+                "typeString": "contract PercentRateProvider"
+              }
+            },
+            "id": 1493,
+            "nodeType": "InheritanceSpecifier",
+            "src": "138:19:10"
+          }
+        ],
+        "contractDependencies": [
+          1754,
+          1775
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 1600,
+        "linearizedBaseContracts": [
+          1600,
+          1775,
+          1754
+        ],
+        "name": "ValueBonusFeature",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "id": 1496,
+            "libraryName": {
+              "contractScope": null,
+              "id": 1494,
+              "name": "SafeMath",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 1698,
+              "src": "171:8:10",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_SafeMath_$1698",
+                "typeString": "library SafeMath"
+              }
+            },
+            "nodeType": "UsingForDirective",
+            "src": "165:24:10",
+            "typeName": {
+              "id": 1495,
+              "name": "uint",
+              "nodeType": "ElementaryTypeName",
+              "src": "184:4:10",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            }
+          },
+          {
+            "canonicalName": "ValueBonusFeature.ValueBonus",
+            "id": 1501,
+            "members": [
+              {
+                "constant": false,
+                "id": 1498,
+                "name": "from",
+                "nodeType": "VariableDeclaration",
+                "scope": 1501,
+                "src": "220:9:10",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 1497,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "220:4:10",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1500,
+                "name": "bonus",
+                "nodeType": "VariableDeclaration",
+                "scope": 1501,
+                "src": "236:10:10",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 1499,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "236:4:10",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              }
+            ],
+            "name": "ValueBonus",
+            "nodeType": "StructDefinition",
+            "scope": 1600,
+            "src": "195:57:10",
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 1504,
+            "name": "valueBonuses",
+            "nodeType": "VariableDeclaration",
+            "scope": 1600,
+            "src": "258:32:10",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_array$_t_struct$_ValueBonus_$1501_storage_$dyn_storage",
+              "typeString": "struct ValueBonusFeature.ValueBonus[]"
+            },
+            "typeName": {
+              "baseType": {
+                "contractScope": null,
+                "id": 1502,
+                "name": "ValueBonus",
+                "nodeType": "UserDefinedTypeName",
+                "referencedDeclaration": 1501,
+                "src": "258:10:10",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_struct$_ValueBonus_$1501_storage_ptr",
+                  "typeString": "struct ValueBonusFeature.ValueBonus"
+                }
+              },
+              "id": 1503,
+              "length": null,
+              "nodeType": "ArrayTypeName",
+              "src": "258:12:10",
+              "typeDescriptions": {
+                "typeIdentifier": "t_array$_t_struct$_ValueBonus_$1501_storage_$dyn_storage_ptr",
+                "typeString": "struct ValueBonusFeature.ValueBonus[]"
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 1522,
+              "nodeType": "Block",
+              "src": "360:55:10",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "arguments": [
+                          {
+                            "argumentTypes": null,
+                            "id": 1517,
+                            "name": "from",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 1506,
+                            "src": "396:4:10",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_uint256",
+                              "typeString": "uint256"
+                            }
+                          },
+                          {
+                            "argumentTypes": null,
+                            "id": 1518,
+                            "name": "bonus",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 1508,
+                            "src": "402:5:10",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_uint256",
+                              "typeString": "uint256"
+                            }
+                          }
+                        ],
+                        "expression": {
+                          "argumentTypes": [
+                            {
+                              "typeIdentifier": "t_uint256",
+                              "typeString": "uint256"
+                            },
+                            {
+                              "typeIdentifier": "t_uint256",
+                              "typeString": "uint256"
+                            }
+                          ],
+                          "id": 1516,
+                          "name": "ValueBonus",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 1501,
+                          "src": "385:10:10",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_type$_t_struct$_ValueBonus_$1501_storage_ptr_$",
+                            "typeString": "type(struct ValueBonusFeature.ValueBonus storage pointer)"
+                          }
+                        },
+                        "id": 1519,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "kind": "structConstructorCall",
+                        "lValueRequested": false,
+                        "names": [],
+                        "nodeType": "FunctionCall",
+                        "src": "385:23:10",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_ValueBonus_$1501_memory",
+                          "typeString": "struct ValueBonusFeature.ValueBonus memory"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_struct$_ValueBonus_$1501_memory",
+                          "typeString": "struct ValueBonusFeature.ValueBonus memory"
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 1513,
+                        "name": "valueBonuses",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1504,
+                        "src": "367:12:10",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_array$_t_struct$_ValueBonus_$1501_storage_$dyn_storage",
+                          "typeString": "struct ValueBonusFeature.ValueBonus storage ref[] storage ref"
+                        }
+                      },
+                      "id": 1515,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "push",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": null,
+                      "src": "367:17:10",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_arraypush_nonpayable$_t_struct$_ValueBonus_$1501_storage_$returns$_t_uint256_$",
+                        "typeString": "function (struct ValueBonusFeature.ValueBonus storage ref) returns (uint256)"
+                      }
+                    },
+                    "id": 1520,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "367:42:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 1521,
+                  "nodeType": "ExpressionStatement",
+                  "src": "367:42:10"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 1523,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": false,
+            "modifiers": [
+              {
+                "arguments": null,
+                "id": 1511,
+                "modifierName": {
+                  "argumentTypes": null,
+                  "id": 1510,
+                  "name": "onlyOwner",
+                  "nodeType": "Identifier",
+                  "overloadedDeclarations": [],
+                  "referencedDeclaration": 1728,
+                  "src": "350:9:10",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_modifier$__$",
+                    "typeString": "modifier ()"
+                  }
+                },
+                "nodeType": "ModifierInvocation",
+                "src": "350:9:10"
+              }
+            ],
+            "name": "addValueBonus",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1509,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1506,
+                  "name": "from",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1523,
+                  "src": "320:9:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1505,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "320:4:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1508,
+                  "name": "bonus",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1523,
+                  "src": "331:10:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1507,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "331:4:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "319:23:10"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 1512,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "360:0:10"
+            },
+            "scope": 1600,
+            "src": "297:118:10",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 1553,
+              "nodeType": "Block",
+              "src": "505:159:10",
+              "statements": [
+                {
+                  "assignments": [
+                    1533
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 1533,
+                      "name": "valueBonus",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 1554,
+                      "src": "512:15:10",
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      },
+                      "typeName": {
+                        "id": 1532,
+                        "name": "uint",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "512:4:10",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 1537,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 1535,
+                        "name": "_invested",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1527,
+                        "src": "544:9:10",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      ],
+                      "id": 1534,
+                      "name": "getValueBonus",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 1599,
+                      "src": "530:13:10",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_view$_t_uint256_$returns$_t_uint256_$",
+                        "typeString": "function (uint256) view returns (uint256)"
+                      }
+                    },
+                    "id": 1536,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "530:24:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "512:42:10"
+                },
+                {
+                  "condition": {
+                    "argumentTypes": null,
+                    "commonType": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    },
+                    "id": 1540,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftExpression": {
+                      "argumentTypes": null,
+                      "id": 1538,
+                      "name": "valueBonus",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 1533,
+                      "src": "564:10:10",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "BinaryOperation",
+                    "operator": "==",
+                    "rightExpression": {
+                      "argumentTypes": null,
+                      "hexValue": "30",
+                      "id": 1539,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "kind": "number",
+                      "lValueRequested": false,
+                      "nodeType": "Literal",
+                      "src": "578:1:10",
+                      "subdenomination": null,
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_rational_0_by_1",
+                        "typeString": "int_const 0"
+                      },
+                      "value": "0"
+                    },
+                    "src": "564:15:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "falseBody": null,
+                  "id": 1544,
+                  "nodeType": "IfStatement",
+                  "src": "561:45:10",
+                  "trueBody": {
+                    "id": 1543,
+                    "nodeType": "Block",
+                    "src": "581:25:10",
+                    "statements": [
+                      {
+                        "expression": {
+                          "argumentTypes": null,
+                          "hexValue": "30",
+                          "id": 1541,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "kind": "number",
+                          "lValueRequested": false,
+                          "nodeType": "Literal",
+                          "src": "597:1:10",
+                          "subdenomination": null,
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_rational_0_by_1",
+                            "typeString": "int_const 0"
+                          },
+                          "value": "0"
+                        },
+                        "functionReturnParameters": 1531,
+                        "id": 1542,
+                        "nodeType": "Return",
+                        "src": "590:8:10"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 1550,
+                        "name": "percentRate",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1762,
+                        "src": "646:11:10",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": null,
+                        "arguments": [
+                          {
+                            "argumentTypes": null,
+                            "id": 1547,
+                            "name": "valueBonus",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 1533,
+                            "src": "630:10:10",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_uint256",
+                              "typeString": "uint256"
+                            }
+                          }
+                        ],
+                        "expression": {
+                          "argumentTypes": [
+                            {
+                              "typeIdentifier": "t_uint256",
+                              "typeString": "uint256"
+                            }
+                          ],
+                          "expression": {
+                            "argumentTypes": null,
+                            "id": 1545,
+                            "name": "tokens",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 1525,
+                            "src": "619:6:10",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_uint256",
+                              "typeString": "uint256"
+                            }
+                          },
+                          "id": 1546,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "memberName": "mul",
+                          "nodeType": "MemberAccess",
+                          "referencedDeclaration": 1635,
+                          "src": "619:10:10",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
+                            "typeString": "function (uint256,uint256) pure returns (uint256)"
+                          }
+                        },
+                        "id": 1548,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "kind": "functionCall",
+                        "lValueRequested": false,
+                        "names": [],
+                        "nodeType": "FunctionCall",
+                        "src": "619:22:10",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      "id": 1549,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "div",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 1653,
+                      "src": "619:26:10",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
+                        "typeString": "function (uint256,uint256) pure returns (uint256)"
+                      }
+                    },
+                    "id": 1551,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "619:39:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "functionReturnParameters": 1531,
+                  "id": 1552,
+                  "nodeType": "Return",
+                  "src": "612:46:10"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 1554,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": true,
+            "modifiers": [],
+            "name": "getValueBonusTokens",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1528,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1525,
+                  "name": "tokens",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1554,
+                  "src": "450:11:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1524,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "450:4:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1527,
+                  "name": "_invested",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1554,
+                  "src": "463:14:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1526,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "463:4:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "449:29:10"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 1531,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1530,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1554,
+                  "src": "499:4:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1529,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "499:4:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "498:6:10"
+            },
+            "scope": 1600,
+            "src": "421:243:10",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 1598,
+              "nodeType": "Block",
+              "src": "731:237:10",
+              "statements": [
+                {
+                  "assignments": [
+                    1562
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 1562,
+                      "name": "bonus",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 1599,
+                      "src": "738:10:10",
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      },
+                      "typeName": {
+                        "id": 1561,
+                        "name": "uint",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "738:4:10",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 1564,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "hexValue": "30",
+                    "id": 1563,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": true,
+                    "kind": "number",
+                    "lValueRequested": false,
+                    "nodeType": "Literal",
+                    "src": "751:1:10",
+                    "subdenomination": null,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_rational_0_by_1",
+                      "typeString": "int_const 0"
+                    },
+                    "value": "0"
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "738:14:10"
+                },
+                {
+                  "body": {
+                    "id": 1594,
+                    "nodeType": "Block",
+                    "src": "805:139:10",
+                    "statements": [
+                      {
+                        "condition": {
+                          "argumentTypes": null,
+                          "commonType": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          },
+                          "id": 1581,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "leftExpression": {
+                            "argumentTypes": null,
+                            "id": 1576,
+                            "name": "value",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 1556,
+                            "src": "817:5:10",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_uint256",
+                              "typeString": "uint256"
+                            }
+                          },
+                          "nodeType": "BinaryOperation",
+                          "operator": ">=",
+                          "rightExpression": {
+                            "argumentTypes": null,
+                            "expression": {
+                              "argumentTypes": null,
+                              "baseExpression": {
+                                "argumentTypes": null,
+                                "id": 1577,
+                                "name": "valueBonuses",
+                                "nodeType": "Identifier",
+                                "overloadedDeclarations": [],
+                                "referencedDeclaration": 1504,
+                                "src": "826:12:10",
+                                "typeDescriptions": {
+                                  "typeIdentifier": "t_array$_t_struct$_ValueBonus_$1501_storage_$dyn_storage",
+                                  "typeString": "struct ValueBonusFeature.ValueBonus storage ref[] storage ref"
+                                }
+                              },
+                              "id": 1579,
+                              "indexExpression": {
+                                "argumentTypes": null,
+                                "id": 1578,
+                                "name": "i",
+                                "nodeType": "Identifier",
+                                "overloadedDeclarations": [],
+                                "referencedDeclaration": 1566,
+                                "src": "839:1:10",
+                                "typeDescriptions": {
+                                  "typeIdentifier": "t_uint256",
+                                  "typeString": "uint256"
+                                }
+                              },
+                              "isConstant": false,
+                              "isLValue": true,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "nodeType": "IndexAccess",
+                              "src": "826:15:10",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_struct$_ValueBonus_$1501_storage",
+                                "typeString": "struct ValueBonusFeature.ValueBonus storage ref"
+                              }
+                            },
+                            "id": 1580,
+                            "isConstant": false,
+                            "isLValue": true,
+                            "isPure": false,
+                            "lValueRequested": false,
+                            "memberName": "from",
+                            "nodeType": "MemberAccess",
+                            "referencedDeclaration": 1498,
+                            "src": "826:20:10",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_uint256",
+                              "typeString": "uint256"
+                            }
+                          },
+                          "src": "817:29:10",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_bool",
+                            "typeString": "bool"
+                          }
+                        },
+                        "falseBody": {
+                          "id": 1592,
+                          "nodeType": "Block",
+                          "src": "904:33:10",
+                          "statements": [
+                            {
+                              "expression": {
+                                "argumentTypes": null,
+                                "id": 1590,
+                                "name": "bonus",
+                                "nodeType": "Identifier",
+                                "overloadedDeclarations": [],
+                                "referencedDeclaration": 1562,
+                                "src": "922:5:10",
+                                "typeDescriptions": {
+                                  "typeIdentifier": "t_uint256",
+                                  "typeString": "uint256"
+                                }
+                              },
+                              "functionReturnParameters": 1560,
+                              "id": 1591,
+                              "nodeType": "Return",
+                              "src": "915:12:10"
+                            }
+                          ]
+                        },
+                        "id": 1593,
+                        "nodeType": "IfStatement",
+                        "src": "814:123:10",
+                        "trueBody": {
+                          "id": 1589,
+                          "nodeType": "Block",
+                          "src": "848:50:10",
+                          "statements": [
+                            {
+                              "expression": {
+                                "argumentTypes": null,
+                                "id": 1587,
+                                "isConstant": false,
+                                "isLValue": false,
+                                "isPure": false,
+                                "lValueRequested": false,
+                                "leftHandSide": {
+                                  "argumentTypes": null,
+                                  "id": 1582,
+                                  "name": "bonus",
+                                  "nodeType": "Identifier",
+                                  "overloadedDeclarations": [],
+                                  "referencedDeclaration": 1562,
+                                  "src": "859:5:10",
+                                  "typeDescriptions": {
+                                    "typeIdentifier": "t_uint256",
+                                    "typeString": "uint256"
+                                  }
+                                },
+                                "nodeType": "Assignment",
+                                "operator": "=",
+                                "rightHandSide": {
+                                  "argumentTypes": null,
+                                  "expression": {
+                                    "argumentTypes": null,
+                                    "baseExpression": {
+                                      "argumentTypes": null,
+                                      "id": 1583,
+                                      "name": "valueBonuses",
+                                      "nodeType": "Identifier",
+                                      "overloadedDeclarations": [],
+                                      "referencedDeclaration": 1504,
+                                      "src": "867:12:10",
+                                      "typeDescriptions": {
+                                        "typeIdentifier": "t_array$_t_struct$_ValueBonus_$1501_storage_$dyn_storage",
+                                        "typeString": "struct ValueBonusFeature.ValueBonus storage ref[] storage ref"
+                                      }
+                                    },
+                                    "id": 1585,
+                                    "indexExpression": {
+                                      "argumentTypes": null,
+                                      "id": 1584,
+                                      "name": "i",
+                                      "nodeType": "Identifier",
+                                      "overloadedDeclarations": [],
+                                      "referencedDeclaration": 1566,
+                                      "src": "880:1:10",
+                                      "typeDescriptions": {
+                                        "typeIdentifier": "t_uint256",
+                                        "typeString": "uint256"
+                                      }
+                                    },
+                                    "isConstant": false,
+                                    "isLValue": true,
+                                    "isPure": false,
+                                    "lValueRequested": false,
+                                    "nodeType": "IndexAccess",
+                                    "src": "867:15:10",
+                                    "typeDescriptions": {
+                                      "typeIdentifier": "t_struct$_ValueBonus_$1501_storage",
+                                      "typeString": "struct ValueBonusFeature.ValueBonus storage ref"
+                                    }
+                                  },
+                                  "id": 1586,
+                                  "isConstant": false,
+                                  "isLValue": true,
+                                  "isPure": false,
+                                  "lValueRequested": false,
+                                  "memberName": "bonus",
+                                  "nodeType": "MemberAccess",
+                                  "referencedDeclaration": 1500,
+                                  "src": "867:21:10",
+                                  "typeDescriptions": {
+                                    "typeIdentifier": "t_uint256",
+                                    "typeString": "uint256"
+                                  }
+                                },
+                                "src": "859:29:10",
+                                "typeDescriptions": {
+                                  "typeIdentifier": "t_uint256",
+                                  "typeString": "uint256"
+                                }
+                              },
+                              "id": 1588,
+                              "nodeType": "ExpressionStatement",
+                              "src": "859:29:10"
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  "condition": {
+                    "argumentTypes": null,
+                    "commonType": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    },
+                    "id": 1572,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftExpression": {
+                      "argumentTypes": null,
+                      "id": 1569,
+                      "name": "i",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 1566,
+                      "src": "775:1:10",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "BinaryOperation",
+                    "operator": "<",
+                    "rightExpression": {
+                      "argumentTypes": null,
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 1570,
+                        "name": "valueBonuses",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1504,
+                        "src": "779:12:10",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_array$_t_struct$_ValueBonus_$1501_storage_$dyn_storage",
+                          "typeString": "struct ValueBonusFeature.ValueBonus storage ref[] storage ref"
+                        }
+                      },
+                      "id": 1571,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "length",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": null,
+                      "src": "779:19:10",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "src": "775:23:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "id": 1595,
+                  "initializationExpression": {
+                    "assignments": [
+                      1566
+                    ],
+                    "declarations": [
+                      {
+                        "constant": false,
+                        "id": 1566,
+                        "name": "i",
+                        "nodeType": "VariableDeclaration",
+                        "scope": 1599,
+                        "src": "763:6:10",
+                        "stateVariable": false,
+                        "storageLocation": "default",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        },
+                        "typeName": {
+                          "id": 1565,
+                          "name": "uint",
+                          "nodeType": "ElementaryTypeName",
+                          "src": "763:4:10",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "value": null,
+                        "visibility": "internal"
+                      }
+                    ],
+                    "id": 1568,
+                    "initialValue": {
+                      "argumentTypes": null,
+                      "hexValue": "30",
+                      "id": 1567,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "kind": "number",
+                      "lValueRequested": false,
+                      "nodeType": "Literal",
+                      "src": "772:1:10",
+                      "subdenomination": null,
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_rational_0_by_1",
+                        "typeString": "int_const 0"
+                      },
+                      "value": "0"
+                    },
+                    "nodeType": "VariableDeclarationStatement",
+                    "src": "763:10:10"
+                  },
+                  "loopExpression": {
+                    "expression": {
+                      "argumentTypes": null,
+                      "id": 1574,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "nodeType": "UnaryOperation",
+                      "operator": "++",
+                      "prefix": false,
+                      "src": "800:3:10",
+                      "subExpression": {
+                        "argumentTypes": null,
+                        "id": 1573,
+                        "name": "i",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1566,
+                        "src": "800:1:10",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "id": 1575,
+                    "nodeType": "ExpressionStatement",
+                    "src": "800:3:10"
+                  },
+                  "nodeType": "ForStatement",
+                  "src": "759:185:10"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 1596,
+                    "name": "bonus",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 1562,
+                    "src": "957:5:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "functionReturnParameters": 1560,
+                  "id": 1597,
+                  "nodeType": "Return",
+                  "src": "950:12:10"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 1599,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": true,
+            "modifiers": [],
+            "name": "getValueBonus",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1557,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1556,
+                  "name": "value",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1599,
+                  "src": "693:10:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1555,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "693:4:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "692:12:10"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 1560,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1559,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1599,
+                  "src": "725:4:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1558,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "725:4:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "724:6:10"
+            },
+            "scope": 1600,
+            "src": "670:298:10",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 1601,
+        "src": "108:863:10"
+      }
+    ],
+    "src": "0:971:10"
+  },
+  "legacyAST": {
+    "absolutePath": "/D/dev/uae/contracts/feature/ValueBonusFeature.sol",
+    "exportedSymbols": {
+      "ValueBonusFeature": [
+        1600
+      ]
+    },
+    "id": 1601,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1489,
+        "literals": [
+          "solidity",
+          "^",
+          "0.4",
+          ".24"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:10"
+      },
+      {
+        "absolutePath": "/D/dev/uae/contracts/ownable/PercentRateProvider.sol",
+        "file": "../ownable/PercentRateProvider.sol",
+        "id": 1490,
+        "nodeType": "ImportDirective",
+        "scope": 1601,
+        "sourceUnit": 1776,
+        "src": "28:44:10",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/D/dev/uae/contracts/math/SafeMath.sol",
+        "file": "../math/SafeMath.sol",
+        "id": 1491,
+        "nodeType": "ImportDirective",
+        "scope": 1601,
+        "sourceUnit": 1699,
+        "src": "74:30:10",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 1492,
+              "name": "PercentRateProvider",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 1775,
+              "src": "138:19:10",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_PercentRateProvider_$1775",
+                "typeString": "contract PercentRateProvider"
+              }
+            },
+            "id": 1493,
+            "nodeType": "InheritanceSpecifier",
+            "src": "138:19:10"
+          }
+        ],
+        "contractDependencies": [
+          1754,
+          1775
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 1600,
+        "linearizedBaseContracts": [
+          1600,
+          1775,
+          1754
+        ],
+        "name": "ValueBonusFeature",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "id": 1496,
+            "libraryName": {
+              "contractScope": null,
+              "id": 1494,
+              "name": "SafeMath",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 1698,
+              "src": "171:8:10",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_SafeMath_$1698",
+                "typeString": "library SafeMath"
+              }
+            },
+            "nodeType": "UsingForDirective",
+            "src": "165:24:10",
+            "typeName": {
+              "id": 1495,
+              "name": "uint",
+              "nodeType": "ElementaryTypeName",
+              "src": "184:4:10",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            }
+          },
+          {
+            "canonicalName": "ValueBonusFeature.ValueBonus",
+            "id": 1501,
+            "members": [
+              {
+                "constant": false,
+                "id": 1498,
+                "name": "from",
+                "nodeType": "VariableDeclaration",
+                "scope": 1501,
+                "src": "220:9:10",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 1497,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "220:4:10",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1500,
+                "name": "bonus",
+                "nodeType": "VariableDeclaration",
+                "scope": 1501,
+                "src": "236:10:10",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 1499,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "236:4:10",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              }
+            ],
+            "name": "ValueBonus",
+            "nodeType": "StructDefinition",
+            "scope": 1600,
+            "src": "195:57:10",
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 1504,
+            "name": "valueBonuses",
+            "nodeType": "VariableDeclaration",
+            "scope": 1600,
+            "src": "258:32:10",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_array$_t_struct$_ValueBonus_$1501_storage_$dyn_storage",
+              "typeString": "struct ValueBonusFeature.ValueBonus[]"
+            },
+            "typeName": {
+              "baseType": {
+                "contractScope": null,
+                "id": 1502,
+                "name": "ValueBonus",
+                "nodeType": "UserDefinedTypeName",
+                "referencedDeclaration": 1501,
+                "src": "258:10:10",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_struct$_ValueBonus_$1501_storage_ptr",
+                  "typeString": "struct ValueBonusFeature.ValueBonus"
+                }
+              },
+              "id": 1503,
+              "length": null,
+              "nodeType": "ArrayTypeName",
+              "src": "258:12:10",
+              "typeDescriptions": {
+                "typeIdentifier": "t_array$_t_struct$_ValueBonus_$1501_storage_$dyn_storage_ptr",
+                "typeString": "struct ValueBonusFeature.ValueBonus[]"
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 1522,
+              "nodeType": "Block",
+              "src": "360:55:10",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "arguments": [
+                          {
+                            "argumentTypes": null,
+                            "id": 1517,
+                            "name": "from",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 1506,
+                            "src": "396:4:10",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_uint256",
+                              "typeString": "uint256"
+                            }
+                          },
+                          {
+                            "argumentTypes": null,
+                            "id": 1518,
+                            "name": "bonus",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 1508,
+                            "src": "402:5:10",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_uint256",
+                              "typeString": "uint256"
+                            }
+                          }
+                        ],
+                        "expression": {
+                          "argumentTypes": [
+                            {
+                              "typeIdentifier": "t_uint256",
+                              "typeString": "uint256"
+                            },
+                            {
+                              "typeIdentifier": "t_uint256",
+                              "typeString": "uint256"
+                            }
+                          ],
+                          "id": 1516,
+                          "name": "ValueBonus",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 1501,
+                          "src": "385:10:10",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_type$_t_struct$_ValueBonus_$1501_storage_ptr_$",
+                            "typeString": "type(struct ValueBonusFeature.ValueBonus storage pointer)"
+                          }
+                        },
+                        "id": 1519,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "kind": "structConstructorCall",
+                        "lValueRequested": false,
+                        "names": [],
+                        "nodeType": "FunctionCall",
+                        "src": "385:23:10",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_ValueBonus_$1501_memory",
+                          "typeString": "struct ValueBonusFeature.ValueBonus memory"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_struct$_ValueBonus_$1501_memory",
+                          "typeString": "struct ValueBonusFeature.ValueBonus memory"
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 1513,
+                        "name": "valueBonuses",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1504,
+                        "src": "367:12:10",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_array$_t_struct$_ValueBonus_$1501_storage_$dyn_storage",
+                          "typeString": "struct ValueBonusFeature.ValueBonus storage ref[] storage ref"
+                        }
+                      },
+                      "id": 1515,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "push",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": null,
+                      "src": "367:17:10",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_arraypush_nonpayable$_t_struct$_ValueBonus_$1501_storage_$returns$_t_uint256_$",
+                        "typeString": "function (struct ValueBonusFeature.ValueBonus storage ref) returns (uint256)"
+                      }
+                    },
+                    "id": 1520,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "367:42:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 1521,
+                  "nodeType": "ExpressionStatement",
+                  "src": "367:42:10"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 1523,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": false,
+            "modifiers": [
+              {
+                "arguments": null,
+                "id": 1511,
+                "modifierName": {
+                  "argumentTypes": null,
+                  "id": 1510,
+                  "name": "onlyOwner",
+                  "nodeType": "Identifier",
+                  "overloadedDeclarations": [],
+                  "referencedDeclaration": 1728,
+                  "src": "350:9:10",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_modifier$__$",
+                    "typeString": "modifier ()"
+                  }
+                },
+                "nodeType": "ModifierInvocation",
+                "src": "350:9:10"
+              }
+            ],
+            "name": "addValueBonus",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1509,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1506,
+                  "name": "from",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1523,
+                  "src": "320:9:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1505,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "320:4:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1508,
+                  "name": "bonus",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1523,
+                  "src": "331:10:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1507,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "331:4:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "319:23:10"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 1512,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "360:0:10"
+            },
+            "scope": 1600,
+            "src": "297:118:10",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 1553,
+              "nodeType": "Block",
+              "src": "505:159:10",
+              "statements": [
+                {
+                  "assignments": [
+                    1533
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 1533,
+                      "name": "valueBonus",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 1554,
+                      "src": "512:15:10",
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      },
+                      "typeName": {
+                        "id": 1532,
+                        "name": "uint",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "512:4:10",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 1537,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 1535,
+                        "name": "_invested",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1527,
+                        "src": "544:9:10",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      ],
+                      "id": 1534,
+                      "name": "getValueBonus",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 1599,
+                      "src": "530:13:10",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_view$_t_uint256_$returns$_t_uint256_$",
+                        "typeString": "function (uint256) view returns (uint256)"
+                      }
+                    },
+                    "id": 1536,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "530:24:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "512:42:10"
+                },
+                {
+                  "condition": {
+                    "argumentTypes": null,
+                    "commonType": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    },
+                    "id": 1540,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftExpression": {
+                      "argumentTypes": null,
+                      "id": 1538,
+                      "name": "valueBonus",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 1533,
+                      "src": "564:10:10",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "BinaryOperation",
+                    "operator": "==",
+                    "rightExpression": {
+                      "argumentTypes": null,
+                      "hexValue": "30",
+                      "id": 1539,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "kind": "number",
+                      "lValueRequested": false,
+                      "nodeType": "Literal",
+                      "src": "578:1:10",
+                      "subdenomination": null,
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_rational_0_by_1",
+                        "typeString": "int_const 0"
+                      },
+                      "value": "0"
+                    },
+                    "src": "564:15:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "falseBody": null,
+                  "id": 1544,
+                  "nodeType": "IfStatement",
+                  "src": "561:45:10",
+                  "trueBody": {
+                    "id": 1543,
+                    "nodeType": "Block",
+                    "src": "581:25:10",
+                    "statements": [
+                      {
+                        "expression": {
+                          "argumentTypes": null,
+                          "hexValue": "30",
+                          "id": 1541,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "kind": "number",
+                          "lValueRequested": false,
+                          "nodeType": "Literal",
+                          "src": "597:1:10",
+                          "subdenomination": null,
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_rational_0_by_1",
+                            "typeString": "int_const 0"
+                          },
+                          "value": "0"
+                        },
+                        "functionReturnParameters": 1531,
+                        "id": 1542,
+                        "nodeType": "Return",
+                        "src": "590:8:10"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 1550,
+                        "name": "percentRate",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1762,
+                        "src": "646:11:10",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": null,
+                        "arguments": [
+                          {
+                            "argumentTypes": null,
+                            "id": 1547,
+                            "name": "valueBonus",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 1533,
+                            "src": "630:10:10",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_uint256",
+                              "typeString": "uint256"
+                            }
+                          }
+                        ],
+                        "expression": {
+                          "argumentTypes": [
+                            {
+                              "typeIdentifier": "t_uint256",
+                              "typeString": "uint256"
+                            }
+                          ],
+                          "expression": {
+                            "argumentTypes": null,
+                            "id": 1545,
+                            "name": "tokens",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 1525,
+                            "src": "619:6:10",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_uint256",
+                              "typeString": "uint256"
+                            }
+                          },
+                          "id": 1546,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "memberName": "mul",
+                          "nodeType": "MemberAccess",
+                          "referencedDeclaration": 1635,
+                          "src": "619:10:10",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
+                            "typeString": "function (uint256,uint256) pure returns (uint256)"
+                          }
+                        },
+                        "id": 1548,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "kind": "functionCall",
+                        "lValueRequested": false,
+                        "names": [],
+                        "nodeType": "FunctionCall",
+                        "src": "619:22:10",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      "id": 1549,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "div",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 1653,
+                      "src": "619:26:10",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
+                        "typeString": "function (uint256,uint256) pure returns (uint256)"
+                      }
+                    },
+                    "id": 1551,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "619:39:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "functionReturnParameters": 1531,
+                  "id": 1552,
+                  "nodeType": "Return",
+                  "src": "612:46:10"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 1554,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": true,
+            "modifiers": [],
+            "name": "getValueBonusTokens",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1528,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1525,
+                  "name": "tokens",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1554,
+                  "src": "450:11:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1524,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "450:4:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1527,
+                  "name": "_invested",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1554,
+                  "src": "463:14:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1526,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "463:4:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "449:29:10"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 1531,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1530,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1554,
+                  "src": "499:4:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1529,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "499:4:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "498:6:10"
+            },
+            "scope": 1600,
+            "src": "421:243:10",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 1598,
+              "nodeType": "Block",
+              "src": "731:237:10",
+              "statements": [
+                {
+                  "assignments": [
+                    1562
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 1562,
+                      "name": "bonus",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 1599,
+                      "src": "738:10:10",
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      },
+                      "typeName": {
+                        "id": 1561,
+                        "name": "uint",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "738:4:10",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 1564,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "hexValue": "30",
+                    "id": 1563,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": true,
+                    "kind": "number",
+                    "lValueRequested": false,
+                    "nodeType": "Literal",
+                    "src": "751:1:10",
+                    "subdenomination": null,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_rational_0_by_1",
+                      "typeString": "int_const 0"
+                    },
+                    "value": "0"
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "738:14:10"
+                },
+                {
+                  "body": {
+                    "id": 1594,
+                    "nodeType": "Block",
+                    "src": "805:139:10",
+                    "statements": [
+                      {
+                        "condition": {
+                          "argumentTypes": null,
+                          "commonType": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          },
+                          "id": 1581,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "leftExpression": {
+                            "argumentTypes": null,
+                            "id": 1576,
+                            "name": "value",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 1556,
+                            "src": "817:5:10",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_uint256",
+                              "typeString": "uint256"
+                            }
+                          },
+                          "nodeType": "BinaryOperation",
+                          "operator": ">=",
+                          "rightExpression": {
+                            "argumentTypes": null,
+                            "expression": {
+                              "argumentTypes": null,
+                              "baseExpression": {
+                                "argumentTypes": null,
+                                "id": 1577,
+                                "name": "valueBonuses",
+                                "nodeType": "Identifier",
+                                "overloadedDeclarations": [],
+                                "referencedDeclaration": 1504,
+                                "src": "826:12:10",
+                                "typeDescriptions": {
+                                  "typeIdentifier": "t_array$_t_struct$_ValueBonus_$1501_storage_$dyn_storage",
+                                  "typeString": "struct ValueBonusFeature.ValueBonus storage ref[] storage ref"
+                                }
+                              },
+                              "id": 1579,
+                              "indexExpression": {
+                                "argumentTypes": null,
+                                "id": 1578,
+                                "name": "i",
+                                "nodeType": "Identifier",
+                                "overloadedDeclarations": [],
+                                "referencedDeclaration": 1566,
+                                "src": "839:1:10",
+                                "typeDescriptions": {
+                                  "typeIdentifier": "t_uint256",
+                                  "typeString": "uint256"
+                                }
+                              },
+                              "isConstant": false,
+                              "isLValue": true,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "nodeType": "IndexAccess",
+                              "src": "826:15:10",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_struct$_ValueBonus_$1501_storage",
+                                "typeString": "struct ValueBonusFeature.ValueBonus storage ref"
+                              }
+                            },
+                            "id": 1580,
+                            "isConstant": false,
+                            "isLValue": true,
+                            "isPure": false,
+                            "lValueRequested": false,
+                            "memberName": "from",
+                            "nodeType": "MemberAccess",
+                            "referencedDeclaration": 1498,
+                            "src": "826:20:10",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_uint256",
+                              "typeString": "uint256"
+                            }
+                          },
+                          "src": "817:29:10",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_bool",
+                            "typeString": "bool"
+                          }
+                        },
+                        "falseBody": {
+                          "id": 1592,
+                          "nodeType": "Block",
+                          "src": "904:33:10",
+                          "statements": [
+                            {
+                              "expression": {
+                                "argumentTypes": null,
+                                "id": 1590,
+                                "name": "bonus",
+                                "nodeType": "Identifier",
+                                "overloadedDeclarations": [],
+                                "referencedDeclaration": 1562,
+                                "src": "922:5:10",
+                                "typeDescriptions": {
+                                  "typeIdentifier": "t_uint256",
+                                  "typeString": "uint256"
+                                }
+                              },
+                              "functionReturnParameters": 1560,
+                              "id": 1591,
+                              "nodeType": "Return",
+                              "src": "915:12:10"
+                            }
+                          ]
+                        },
+                        "id": 1593,
+                        "nodeType": "IfStatement",
+                        "src": "814:123:10",
+                        "trueBody": {
+                          "id": 1589,
+                          "nodeType": "Block",
+                          "src": "848:50:10",
+                          "statements": [
+                            {
+                              "expression": {
+                                "argumentTypes": null,
+                                "id": 1587,
+                                "isConstant": false,
+                                "isLValue": false,
+                                "isPure": false,
+                                "lValueRequested": false,
+                                "leftHandSide": {
+                                  "argumentTypes": null,
+                                  "id": 1582,
+                                  "name": "bonus",
+                                  "nodeType": "Identifier",
+                                  "overloadedDeclarations": [],
+                                  "referencedDeclaration": 1562,
+                                  "src": "859:5:10",
+                                  "typeDescriptions": {
+                                    "typeIdentifier": "t_uint256",
+                                    "typeString": "uint256"
+                                  }
+                                },
+                                "nodeType": "Assignment",
+                                "operator": "=",
+                                "rightHandSide": {
+                                  "argumentTypes": null,
+                                  "expression": {
+                                    "argumentTypes": null,
+                                    "baseExpression": {
+                                      "argumentTypes": null,
+                                      "id": 1583,
+                                      "name": "valueBonuses",
+                                      "nodeType": "Identifier",
+                                      "overloadedDeclarations": [],
+                                      "referencedDeclaration": 1504,
+                                      "src": "867:12:10",
+                                      "typeDescriptions": {
+                                        "typeIdentifier": "t_array$_t_struct$_ValueBonus_$1501_storage_$dyn_storage",
+                                        "typeString": "struct ValueBonusFeature.ValueBonus storage ref[] storage ref"
+                                      }
+                                    },
+                                    "id": 1585,
+                                    "indexExpression": {
+                                      "argumentTypes": null,
+                                      "id": 1584,
+                                      "name": "i",
+                                      "nodeType": "Identifier",
+                                      "overloadedDeclarations": [],
+                                      "referencedDeclaration": 1566,
+                                      "src": "880:1:10",
+                                      "typeDescriptions": {
+                                        "typeIdentifier": "t_uint256",
+                                        "typeString": "uint256"
+                                      }
+                                    },
+                                    "isConstant": false,
+                                    "isLValue": true,
+                                    "isPure": false,
+                                    "lValueRequested": false,
+                                    "nodeType": "IndexAccess",
+                                    "src": "867:15:10",
+                                    "typeDescriptions": {
+                                      "typeIdentifier": "t_struct$_ValueBonus_$1501_storage",
+                                      "typeString": "struct ValueBonusFeature.ValueBonus storage ref"
+                                    }
+                                  },
+                                  "id": 1586,
+                                  "isConstant": false,
+                                  "isLValue": true,
+                                  "isPure": false,
+                                  "lValueRequested": false,
+                                  "memberName": "bonus",
+                                  "nodeType": "MemberAccess",
+                                  "referencedDeclaration": 1500,
+                                  "src": "867:21:10",
+                                  "typeDescriptions": {
+                                    "typeIdentifier": "t_uint256",
+                                    "typeString": "uint256"
+                                  }
+                                },
+                                "src": "859:29:10",
+                                "typeDescriptions": {
+                                  "typeIdentifier": "t_uint256",
+                                  "typeString": "uint256"
+                                }
+                              },
+                              "id": 1588,
+                              "nodeType": "ExpressionStatement",
+                              "src": "859:29:10"
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  "condition": {
+                    "argumentTypes": null,
+                    "commonType": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    },
+                    "id": 1572,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftExpression": {
+                      "argumentTypes": null,
+                      "id": 1569,
+                      "name": "i",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 1566,
+                      "src": "775:1:10",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "BinaryOperation",
+                    "operator": "<",
+                    "rightExpression": {
+                      "argumentTypes": null,
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 1570,
+                        "name": "valueBonuses",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1504,
+                        "src": "779:12:10",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_array$_t_struct$_ValueBonus_$1501_storage_$dyn_storage",
+                          "typeString": "struct ValueBonusFeature.ValueBonus storage ref[] storage ref"
+                        }
+                      },
+                      "id": 1571,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "length",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": null,
+                      "src": "779:19:10",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "src": "775:23:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "id": 1595,
+                  "initializationExpression": {
+                    "assignments": [
+                      1566
+                    ],
+                    "declarations": [
+                      {
+                        "constant": false,
+                        "id": 1566,
+                        "name": "i",
+                        "nodeType": "VariableDeclaration",
+                        "scope": 1599,
+                        "src": "763:6:10",
+                        "stateVariable": false,
+                        "storageLocation": "default",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        },
+                        "typeName": {
+                          "id": 1565,
+                          "name": "uint",
+                          "nodeType": "ElementaryTypeName",
+                          "src": "763:4:10",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "value": null,
+                        "visibility": "internal"
+                      }
+                    ],
+                    "id": 1568,
+                    "initialValue": {
+                      "argumentTypes": null,
+                      "hexValue": "30",
+                      "id": 1567,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "kind": "number",
+                      "lValueRequested": false,
+                      "nodeType": "Literal",
+                      "src": "772:1:10",
+                      "subdenomination": null,
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_rational_0_by_1",
+                        "typeString": "int_const 0"
+                      },
+                      "value": "0"
+                    },
+                    "nodeType": "VariableDeclarationStatement",
+                    "src": "763:10:10"
+                  },
+                  "loopExpression": {
+                    "expression": {
+                      "argumentTypes": null,
+                      "id": 1574,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "nodeType": "UnaryOperation",
+                      "operator": "++",
+                      "prefix": false,
+                      "src": "800:3:10",
+                      "subExpression": {
+                        "argumentTypes": null,
+                        "id": 1573,
+                        "name": "i",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1566,
+                        "src": "800:1:10",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "id": 1575,
+                    "nodeType": "ExpressionStatement",
+                    "src": "800:3:10"
+                  },
+                  "nodeType": "ForStatement",
+                  "src": "759:185:10"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 1596,
+                    "name": "bonus",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 1562,
+                    "src": "957:5:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "functionReturnParameters": 1560,
+                  "id": 1597,
+                  "nodeType": "Return",
+                  "src": "950:12:10"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 1599,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": true,
+            "modifiers": [],
+            "name": "getValueBonus",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1557,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1556,
+                  "name": "value",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1599,
+                  "src": "693:10:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1555,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "693:4:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "692:12:10"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 1560,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1559,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1599,
+                  "src": "725:4:10",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1558,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "725:4:10",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "724:6:10"
+            },
+            "scope": 1600,
+            "src": "670:298:10",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 1601,
+        "src": "108:863:10"
+      }
+    ],
+    "src": "0:971:10"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.4.25+commit.59dbf8f1.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "2.0.2",
+  "updatedAt": "2019-01-26T16:32:46.467Z"
+}

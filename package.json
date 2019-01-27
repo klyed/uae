@@ -26,6 +26,7 @@
     "react-table": "6.8.6",
     "react-tagsinput": "3.19.0",
     "bignumber.js": "^7.2.1",
+    "@babel/runtime": "^7.1.2",
     "cryptocompare": "^0.5.0",
     "cryptocurrencies": "^5.0.0",
     "openzeppelin-solidity": "2.0.0",
@@ -33,9 +34,6 @@
     "web3": "^1.0.0-beta.37"
   },
   "scripts": {
-    "ganache": "ganache-cli -p 8545 -l 6721975000",
-    "compile-contracts": "npm-run-all compile:contracts",
-    "deploy-contracts-local": "truffle.cmd migrate --reset --network local",
     "build-css": "node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/",
     "watch-css": "npm run build-css && node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/ --watch --recursive",
     "start-js": "react-scripts start",
@@ -50,12 +48,21 @@
     "node_modules-w": "rmdir node_modules /s && del package-lock.json",
     "install:clean": "npm run node_modules && npm install && npm start",
     "install:clean-w": "npm run node_modules-w && npm install && npm start",
+    "ganache": "ganache-cli -p 8545 -l 6721975000000000 -g 1",
+    "compile-contracts": "npm-run-all compile:contracts copy:contracts",
+    "deploy-contracts-local": "truffle.cmd migrate --reset --network local",
     "compile:contracts": "truffle.cmd compile --all",
-    "copy:contracts": "babel-node src/tools/copyContracts"
+    "copy:contracts": "babel-node src/tools/copyContracts",
+    "integration-tests": "mocha --require ignore-styles --reporter spec src/tools/testSetup.js test/integration/*.js"
   },
-  "optionalDependencies": {
+  "devDependencies": {
+    "@babel/cli": "^7.1.2",
     "@babel/core": "7.0.0",
     "@babel/node": "^7.0.0",
+    "@babel/plugin-transform-runtime": "^7.1.0",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/register": "^7.0.0",
     "@types/googlemaps": "3.30.13",
     "@types/markerclustererplus": "2.1.33",
     "ajv": "5.0.0",
@@ -70,6 +77,7 @@
     "chalk": "^2.4.1",
     "fs-extra": "^7.0.0",
     "ganache-cli": "6.2.3",
+    "ignore-styles": "^5.0.1",
     "jsdom": "^12.2.0",
     "mocha": "^5.2.0",
     "node-fetch": "^2.2.0",
