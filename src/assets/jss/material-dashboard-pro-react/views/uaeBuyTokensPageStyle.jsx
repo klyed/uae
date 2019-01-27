@@ -63,6 +63,9 @@ const uaeBuyTokensPageStyle = theme => ({
     margin: "auto",
     borderRadius: "30px !important",
     fontSize: "18px"
+  },
+  addressStatsCard: {
+    width: "800px !important"
   }
 });
 
