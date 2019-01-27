@@ -1,8 +1,5 @@
-//import fs from 'fs-extra';
-//import chalk from 'chalk';
-
-var fs = require("fs-extra");
-var chalk = require("chalk");
+import fs from 'fs-extra';
+import chalk from 'chalk';
 
 fs.copy('build/contracts/', 'src/contracts/', err => {
   if (err) return console.log(chalk.red(err)); // eslint-disable-line no-console
