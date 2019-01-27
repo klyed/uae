@@ -11,7 +11,7 @@ import Hidden from "@material-ui/core/Hidden";
 // logo image
 import merkleBlueLogo from "assets/img/merkle-blue-logo.png";
 
-import pagesHeaderStyle from "assets/jss/material-dashboard-pro-react/components/pagesHeaderStyle.jsx";
+import uaePagesHeaderStyle from "assets/jss/material-dashboard-pro-react/components/uaePagesHeaderStyle.jsx";
 
 class UAEPagesHeader extends React.Component {
   constructor(props) {
@@ -43,7 +43,7 @@ class UAEPagesHeader extends React.Component {
               <img src={merkleBlueLogo} alt="Company Logo" />
             </div>
           </Hidden>
-          <h3>[Token Name] Crowdsale</h3>
+          <h3 className={classes.text}>[Token Name] Crowdsale</h3>
         </Toolbar>
       </AppBar>
     );
@@ -55,4 +55,4 @@ UAEPagesHeader.propTypes = {
   color: PropTypes.oneOf(["primary", "info", "success", "warning", "danger"])
 };
 
-export default withStyles(pagesHeaderStyle)(UAEPagesHeader);
+export default withStyles(uaePagesHeaderStyle)(UAEPagesHeader);
