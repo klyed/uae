@@ -18,8 +18,12 @@ import "../open-zeppelin-contracts/crowdsale/distribution/RefundablePostDelivery
  * @author TokenMint.io
  */
 contract CMIRPDCrowdsale is CappedCrowdsale, MintedCrowdsale, IncreasingPriceCrowdsale, RefundablePostDeliveryCrowdsale {
+
+    // minimum amount of wei needed for single investment
+    uint256 private _minimumInvestmentWei;
+
     /**
-    * @dev Constructor, creates CMRPDCrowdsale.
+    * @dev Constructor, creates CMIRPDCrowdsale.
     * @param openingTime Crowdsale opening time
     * @param closingTime Crowdsale closing time
     * @param initialRate How many smallest token units a buyer gets per wei at the beginning of the crowdsale
@@ -28,6 +32,7 @@ contract CMIRPDCrowdsale is CappedCrowdsale, MintedCrowdsale, IncreasingPriceCro
     * @param tokenContractAddress ERC20Mintable contract address of the token being sold, already deployed
     * @param cap Cap on funds raised (maximum, hard cap)
     * @param goal Goal on funds raised (minimum, soft cap)
+    * @param minimumInvestmentWei Minimum amount of wei needed for single investment
     */
     constructor (
         uint256 openingTime,
@@ -37,7 +42,8 @@ contract CMIRPDCrowdsale is CappedCrowdsale, MintedCrowdsale, IncreasingPriceCro
         address fundRaisingAddress,
         ERC20Mintable tokenContractAddress,
         uint256 cap,
-        uint256 goal
+        uint256 goal,
+        uint256 minimumInvestmentWei
     )
         public payable
         Crowdsale(initialRate, fundRaisingAddress, tokenContractAddress)
@@ -49,5 +55,25 @@ contract CMIRPDCrowdsale is CappedCrowdsale, MintedCrowdsale, IncreasingPriceCro
       // As goal needs to be met for a successful crowdsale
       // the value needs to less or equal than a cap which is limit for accepted funds
       require(goal <= cap);
+
+      // set minimum investment
+      _minimumInvestmentWei = minimumInvestmentWei;
+    }
+
+    /**
+     * @return minimum investment amount in wei
+     */
+    function minimumInvestmentWei() public view returns (uint256) {
+        return _minimumInvestmentWei;
+    }
+
+    /**
+     * @dev Extend parent behavior requiring purchase to respect the minimum investment amount in wei
+     * @param beneficiary Token purchaser
+     * @param weiAmount Amount of wei contributed
+     */
+    function _preValidatePurchase(address beneficiary, uint256 weiAmount) internal view {
+        super._preValidatePurchase(beneficiary, weiAmount);
+        require(weiAmount >= _minimumInvestmentWei);
     }
 }
