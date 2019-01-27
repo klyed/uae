@@ -1,15 +1,21 @@
 pragma solidity ^0.4.24;
 
 import '../../node_modules/openzeppelin-solidity/contracts/token/ERC20/ERC20Mintable.sol';
+import '../../node_modules/openzeppelin-solidity/contracts/token/ERC20/ERC20Pausable.sol';
 
 /**
- * @title TokenMintERC20MintableToken
+ * @title UAEToken
  * @author TokenMint.io
- * @dev Mintable ERC20 token with optional functions implemented.
+ * @dev Mintable and pausable ERC20 token with optional functions implemented. 
+ * When token is paused, no one can transfer or approve tokens, but more tokens 
+ * can be minted by minter.
+ * Minting can be used for multi-stage ICO where the current minter adds
+ * a minter role to crowdsale contract. After all crowdfunding stages minter 
+ * should renounce his minter role.
  * For full specification of ERC-20 standard see:
  * https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20.md
  */
-contract UAEToken is ERC20Mintable {
+contract UAEToken is ERC20Mintable, ERC20Pausable {
 
     string private _name;
     string private _symbol;

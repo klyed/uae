@@ -14,7 +14,7 @@ import "../open-zeppelin-contracts/crowdsale/distribution/RefundablePostDelivery
  *   - Timed - has opening and closing time
  *   - Increasing price - price increases linearly from the opening to the closing time
  *   - Refundable - has a goal (minimum, soft cap), if not exceeded, funds are returned to investors
- *   - PostDelivery - tokens are withdrawn after crowsale is successfully finished
+ *   - PostDelivery - tokens are withdrawn after crowsale is successfully finished, if tokens not paused
  * @author TokenMint.io
  */
 contract CMIRPDCrowdsale is CappedCrowdsale, MintedCrowdsale, IncreasingPriceCrowdsale, RefundablePostDeliveryCrowdsale {
@@ -52,12 +52,12 @@ contract CMIRPDCrowdsale is CappedCrowdsale, MintedCrowdsale, IncreasingPriceCro
         IncreasingPriceCrowdsale(initialRate, finalRate)
         RefundableCrowdsale(goal)
     {
-      // As goal needs to be met for a successful crowdsale
-      // the value needs to less or equal than a cap which is limit for accepted funds
-      require(goal <= cap);
+        // As goal needs to be met for a successful crowdsale
+        // the value needs to less or equal than a cap which is limit for accepted funds
+        require(goal <= cap);
 
-      // set minimum investment
-      _minimumInvestmentWei = minimumInvestmentWei;
+        // set minimum investment
+        _minimumInvestmentWei = minimumInvestmentWei;
     }
 
     /**
