@@ -4,7 +4,9 @@
 
 import {
   container,
-  cardTitle
+  cardTitle,
+  dangerColor,
+  infoColor
 } from "assets/jss/material-dashboard-pro-react.jsx";
 
 const uaeBuyTokensPageStyle = theme => ({
@@ -66,6 +68,18 @@ const uaeBuyTokensPageStyle = theme => ({
   },
   addressStatsCard: {
     width: "800px !important"
+  },
+  danger: {
+    color: dangerColor + "!important"
+  },
+  tokenWalletAddressInput: {
+    color: infoColor + "!important"
+  },
+  cardIconTitle: {
+    ...cardTitle,
+    marginTop: "15px",
+    marginBottom: "0px",
+    float: "left"
   }
 });
 
