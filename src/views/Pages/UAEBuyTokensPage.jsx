@@ -6,10 +6,14 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import CardIcon from "components/Card/CardIcon.jsx";
 import Tooltip from "@material-ui/core/Tooltip";
 import Button from "components/CustomButtons/Button.jsx";
+import CustomInput from "components/CustomInput/CustomInput.jsx";
+import InputAdornment from "@material-ui/core/InputAdornment";
 
 // @material-ui/icons
 import PaymentIcon from "@material-ui/icons/Payment";
 import AccountBalanceWallet from "@material-ui/icons/AccountBalanceWallet";
+import Close from "@material-ui/icons/Close";
+import Assignment from "@material-ui/icons/Assignment";
 
 // core components
 import GridContainer from "components/Grid/GridContainer.jsx";
@@ -18,6 +22,9 @@ import Card from "components/Card/Card.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
+import Table from "components/Table/Table.jsx";
+
+import InputValidator from "tools/InputValidator";
 
 import uaeBuyTokensPageStyle from "assets/jss/material-dashboard-pro-react/views/uaeBuyTokensPageStyle.jsx";
 
@@ -27,14 +34,16 @@ class UAEBuyTokensPage extends React.Component {
     // we use this to make the card to appear after the page has been rendered
     this.state = {
       cardAnimation: "cardHidden",
-      addressCardAnimation: "cardHidden"
+      addressCardAnimation: "cardHidden",
+      tokenWalletAddressValid: ""
     };
     this.handleBuyTokens = this.handleBuyTokens.bind(this);
+    this.handleTokenAddressChange = this.handleTokenAddressChange.bind(this);
   }
   componentDidMount() {
     // we add a hidden class to the card and after 700 ms we delete it and the transition appears
     this.timeOutFunction = setTimeout(
-      function() {
+      function () {
         this.setState({
           cardAnimation: "",
           addressCardAnimation: "addressStatsCard"
@@ -52,13 +61,24 @@ class UAEBuyTokensPage extends React.Component {
     alert("buying tokens!");
   }
 
+  handleTokenAddressChange(e) {
+    if (e.target.value === "") {
+      this.setState({ tokenWalletAddressValid: "" });
+    } else if (InputValidator.isEthereumAddress(e.target.value)) {
+      this.setState({ tokenWalletAddressValid: "success" });
+      //TODO: check stats here
+    } else {
+      this.setState({ tokenWalletAddressValid: "error" });
+    }
+  }
+
   render() {
     const { classes } = this.props;
     return (
       <div className={classes.container}>
         <div className={classes.container}>
           <GridContainer justify="center">
-            <GridItem xs={12} sm={6} md={4}>
+            <GridItem xs={12} sm={6} md={5}>
               <Card className={classes[this.state.cardAnimation]}>
                 <CardHeader color="info" stats icon>
                   <Tooltip
@@ -82,7 +102,7 @@ class UAEBuyTokensPage extends React.Component {
                 <CardFooter stats className={classes.justifyContentCenter}>
                   <div className={classes.textCenter}>
                     <Button
-                      color="info"
+                      color="rose"
                       size="lg"
                       className={classes.buyTokensButton}
                       onClick={this.handleBuyTokens}
@@ -93,16 +113,12 @@ class UAEBuyTokensPage extends React.Component {
                 </CardFooter>
               </Card>
             </GridItem>
-          </GridContainer>
-        </div>
-        <div className={classes.container}>
-          <GridContainer justify="center">
-            <GridItem xs={12} sm={6} md={4}>
+            <GridItem xs={12} sm={6} md={7}>
               <Card className={classes[this.state.addressCardAnimation]}>
                 <CardHeader color="info" stats icon>
                   <Tooltip
                     id="tooltip-bottom"
-                    title="Token Address Stats Panel"
+                    title="Token Wallet Stats Panel"
                     placement="bottom"
                     classes={{ tooltip: classes.tooltip }}
                   >
@@ -110,20 +126,77 @@ class UAEBuyTokensPage extends React.Component {
                       <AccountBalanceWallet />
                     </CardIcon>
                   </Tooltip>
-                  <h3 className={classes.cardTitle}>Token Address Stats</h3>
+                  <h3 className={classes.cardTitle}>Token Wallet Stats</h3>
                 </CardHeader>
                 <CardBody>
                   <h5 className={classes.textCenter}>
-                    Enter the ERC20 compatible wallet address that you will use
-                    to send and receive [TOKEN] tokens:
+                    Enter the ERC20 wallet address that you used to buy [TOKEN]
+                    tokens:
                   </h5>
-                  <h3 className={classes.textCenter}>COUNTDOWN</h3>
+                  <form>
+                    <CustomInput
+                      success={this.state.tokenWalletAddressValid === "success"}
+                      error={this.state.tokenWalletAddressValid === "error"}
+                      labelText="Token Address *"
+                      id="tokenAddress"
+                      formControlProps={{
+                        fullWidth: true,
+                        classes: {
+                          root: classes.customInputRoot
+                        }
+                      }}
+                      inputProps={{
+                        onChange: this.handleTokenAddressChange,
+                        type: "text",
+                        endAdornment:
+                          this.state.tokenWalletAddressValid === "error" ? (
+                            <InputAdornment position="end">
+                              <Close className={classes.danger} />
+                            </InputAdornment>
+                          ) : (
+                            undefined
+                          )
+                      }}
+                      InputProps={{
+                        className: classes.tokenWalletAddressInput
+                      }}
+                    />
+                  </form>
                 </CardBody>
                 <CardFooter stats className={classes.justifyContentCenter}>
                   <div className={classes.textCenter}>
-                    <p>Ovde ide tabelica</p>
+                    <h3>Current Balance: 0 TOKENS</h3>
                   </div>
                 </CardFooter>
+              </Card>
+            </GridItem>
+          </GridContainer>
+        </div>
+        <div className={classes.container}>
+          <GridContainer>
+            <GridItem xs={12}>
+              <Card>
+                <CardHeader color="info" icon>
+                  <CardIcon color="info">
+                    <Assignment />
+                  </CardIcon>
+                  <h4 className={classes.cardIconTitle}>Transaction History</h4>
+                </CardHeader>
+                <CardBody>
+                  <Table
+                    tableHeaderColor="primary"
+                    tableHead={[
+                      "Transaction Id",
+                      "From Address",
+                      "To Address",
+                      "Amount",
+                      "Status"
+                    ]}
+                    tableData={[]}
+                    coloredColls={[3]}
+                    colorsColls={["primary"]}
+                  />
+                </CardBody>
               </Card>
             </GridItem>
           </GridContainer>
