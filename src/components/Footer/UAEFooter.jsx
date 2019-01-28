@@ -31,7 +31,16 @@ function Footer({ ...props }) {
             href="https://merkleblue.com/"
             className={anchor}
           >
-            {" Merkle Blue"}
+            {" Merkle Blue."}
+          </a>
+          {" Data provided by"}
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://etherscan.io/"
+            className={anchor}
+          >
+            {" etherscan."}
           </a>
         </p>
       </div>
