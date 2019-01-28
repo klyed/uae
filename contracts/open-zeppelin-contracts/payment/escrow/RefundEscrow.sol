@@ -83,6 +83,15 @@ contract RefundEscrow is ConditionalEscrow {
     }
 
     /**
+     * @dev Withdraws the beneficiary's funds before crowdsale closing. 
+     * Can only be called from primary contract. Primary should check
+     * if goal is reached.
+     */
+    function beneficiaryWithdrawBeforeClosing() public onlyPrimary {
+        _beneficiary.transfer(address(this).balance);
+    }
+
+    /**
      * @dev Returns whether refundees can withdraw their deposits (be refunded).
      */
     function withdrawalAllowed(address payee) public view returns (bool) {
