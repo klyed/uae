@@ -1042,7 +1042,7 @@ describe('CMRIPDCrowdsale integration tests', function () {
     }).catch(e => {
       done(new Error(e));
     });
-  });*/
+  });
 
   it('CMIRPDCrowdsale (Paused) - buyTokens() and withdrawTokens() when paused', (done) => {
     let crowdsaleArgs = [startTime, endTime, 1000, 999, icoMaker, null, web3.utils.toWei('0.1', 'ether'), web3.utils.toWei('0.03', 'ether'), 0];
@@ -1116,5 +1116,5 @@ describe('CMRIPDCrowdsale integration tests', function () {
     }).catch(e => {
       done(new Error(e));
     });
-  });
+  });*/
 });
