@@ -46,7 +46,7 @@ describe('Deployment tests', function () {
 
   it('Allocation - allocate 5% and 20% to two parties', (done) => {
     let crowdsaleArgs = [startTime, endTime, 1000, 999, icoMaker, null, web3.utils.toWei('0.1', 'ether'), web3.utils.toWei('0.03', 'ether'), 0];
-    mintApi.deployCMIRPDCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
+    mintApi.deployTokenAndCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
       expect(receipts.tokenReceipt.status).to.be.eq(true);
       expect(receipts.crowdsaleReceipt.status).to.be.eq(true);
 
