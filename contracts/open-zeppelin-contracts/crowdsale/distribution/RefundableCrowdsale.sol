@@ -60,6 +60,15 @@ contract RefundableCrowdsale is FinalizableCrowdsale {
     }
 
     /**
+     * @dev Allow beneficiary to withdraw ETH before crowdsale closing, but only if goal is reached
+     */
+    function beneficiaryWithdrawBeforeClosing() public {
+        require(goalReached());
+
+        _escrow.beneficiaryWithdrawBeforeClosing();
+    }
+
+    /**
      * @dev escrow finalization task, called when finalize() is called
      */
     function _finalization() internal {
