@@ -63,7 +63,8 @@ const uaeBuyTokensPageStyle = theme => ({
   buyTokensButton: {
     textAlign: "center",
     borderRadius: "30px !important",
-    fontSize: "18px"
+    fontSize: "18px",
+    marginBottom: "0px !important"
   },
   addressStatsCard: {
     width: "650px !important"

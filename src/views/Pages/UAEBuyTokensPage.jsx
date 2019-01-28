@@ -25,6 +25,7 @@ import CardFooter from "components/Card/CardFooter.jsx";
 import Table from "components/Table/Table.jsx";
 
 import InputValidator from "tools/InputValidator";
+import { getTokenBalance, getTxHistory } from "api/etherscanApi";
 
 import uaeBuyTokensPageStyle from "assets/jss/material-dashboard-pro-react/views/uaeBuyTokensPageStyle.jsx";
 
@@ -35,7 +36,9 @@ class UAEBuyTokensPage extends React.Component {
     this.state = {
       cardAnimation: "cardHidden",
       addressCardAnimation: "cardHidden",
-      tokenWalletAddressValid: ""
+      tokenWalletAddressValid: "",
+      tokenOwnerBalance: 0,
+      tableData: [[]]
     };
     this.handleBuyTokens = this.handleBuyTokens.bind(this);
     this.handleTokenAddressChange = this.handleTokenAddressChange.bind(this);
@@ -62,11 +65,20 @@ class UAEBuyTokensPage extends React.Component {
   }
 
   handleTokenAddressChange(e) {
+    this.setState({
+      tokenOwnerBalance: 0,
+      tableData: [[]]
+    });
     if (e.target.value === "") {
       this.setState({ tokenWalletAddressValid: "" });
     } else if (InputValidator.isEthereumAddress(e.target.value)) {
       this.setState({ tokenWalletAddressValid: "success" });
-      //TODO: check stats here
+      getTokenBalance(e.target.value).then(balance => {
+        this.setState({ tokenOwnerBalance: balance });
+      });
+      getTxHistory(e.target.value).then(txHistory => {
+        this.setState({ tableData: txHistory });
+      });
     } else {
       this.setState({ tokenWalletAddressValid: "error" });
     }
@@ -118,7 +130,7 @@ class UAEBuyTokensPage extends React.Component {
                 <CardHeader color="info" stats icon>
                   <Tooltip
                     id="tooltip-bottom"
-                    title="Token Wallet Stats Panel"
+                    title="Token Wallet Balance Panel"
                     placement="bottom"
                     classes={{ tooltip: classes.tooltip }}
                   >
@@ -126,7 +138,7 @@ class UAEBuyTokensPage extends React.Component {
                       <AccountBalanceWallet />
                     </CardIcon>
                   </Tooltip>
-                  <h3 className={classes.cardTitle}>Token Wallet Stats</h3>
+                  <h3 className={classes.cardTitle}>Token Wallet Balance</h3>
                 </CardHeader>
                 <CardBody>
                   <h5 className={classes.textCenter}>
@@ -154,8 +166,8 @@ class UAEBuyTokensPage extends React.Component {
                               <Close className={classes.danger} />
                             </InputAdornment>
                           ) : (
-                            undefined
-                          )
+                              undefined
+                            )
                       }}
                       InputProps={{
                         className: classes.tokenWalletAddressInput
@@ -165,7 +177,11 @@ class UAEBuyTokensPage extends React.Component {
                 </CardBody>
                 <CardFooter stats className={classes.justifyContentCenter}>
                   <div className={classes.textCenter}>
-                    <h3>Current Balance: 0 TOKENS</h3>
+                    <h3>
+                      {"Current Balance: "}
+                      {this.state.tokenOwnerBalance}
+                      {" TOKENS"}
+                    </h3>
                   </div>
                 </CardFooter>
               </Card>
@@ -175,7 +191,7 @@ class UAEBuyTokensPage extends React.Component {
         <div className={classes.container}>
           <GridContainer>
             <GridItem xs={12}>
-              <Card>
+              <Card className={classes[this.state.cardAnimation]}>
                 <CardHeader color="info" icon>
                   <CardIcon color="info">
                     <Assignment />
@@ -192,9 +208,7 @@ class UAEBuyTokensPage extends React.Component {
                       "Amount",
                       "Status"
                     ]}
-                    tableData={[]}
-                    coloredColls={[3]}
-                    colorsColls={["primary"]}
+                    tableData={this.state.tableData}
                   />
                 </CardBody>
               </Card>
