@@ -83,6 +83,9 @@ const uaeBuyTokensPageStyle = theme => ({
   },
   customInputRoot: {
     marginBottom: "0px !important"
+  },
+  address: {
+    fontSize: "12px !important"
   }
 });
 

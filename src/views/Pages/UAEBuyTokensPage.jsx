@@ -38,7 +38,7 @@ class UAEBuyTokensPage extends React.Component {
       addressCardAnimation: "cardHidden",
       tokenWalletAddressValid: "",
       tokenOwnerBalance: 0,
-      tableData: [[]]
+      txHistory: [[]]
     };
     this.handleBuyTokens = this.handleBuyTokens.bind(this);
     this.handleTokenAddressChange = this.handleTokenAddressChange.bind(this);
@@ -67,7 +67,7 @@ class UAEBuyTokensPage extends React.Component {
   handleTokenAddressChange(e) {
     this.setState({
       tokenOwnerBalance: 0,
-      tableData: [[]]
+      txHistory: [[]]
     });
     if (e.target.value === "") {
       this.setState({ tokenWalletAddressValid: "" });
@@ -77,7 +77,7 @@ class UAEBuyTokensPage extends React.Component {
         this.setState({ tokenOwnerBalance: balance });
       });
       getTxHistory(e.target.value).then(txHistory => {
-        this.setState({ tableData: txHistory });
+        this.setState({ txHistory: txHistory });
       });
     } else {
       this.setState({ tokenWalletAddressValid: "error" });
@@ -166,11 +166,8 @@ class UAEBuyTokensPage extends React.Component {
                               <Close className={classes.danger} />
                             </InputAdornment>
                           ) : (
-                              undefined
-                            )
-                      }}
-                      InputProps={{
-                        className: classes.tokenWalletAddressInput
+                            undefined
+                          )
                       }}
                     />
                   </form>
@@ -200,6 +197,15 @@ class UAEBuyTokensPage extends React.Component {
                 </CardHeader>
                 <CardBody>
                   <Table
+                    hover
+                    customClassesForCells={[0, 1, 2, 3, 4]}
+                    customCellClasses={[
+                      classes.address,
+                      classes.address,
+                      classes.address,
+                      classes.textCenter,
+                      classes.textCenter
+                    ]}
                     tableHeaderColor="primary"
                     tableHead={[
                       "Transaction Id",
@@ -208,7 +214,7 @@ class UAEBuyTokensPage extends React.Component {
                       "Amount",
                       "Status"
                     ]}
-                    tableData={this.state.tableData}
+                    tableData={this.state.txHistory}
                   />
                 </CardBody>
               </Card>
