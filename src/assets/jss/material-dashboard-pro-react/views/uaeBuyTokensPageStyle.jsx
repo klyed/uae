@@ -62,12 +62,11 @@ const uaeBuyTokensPageStyle = theme => ({
   },
   buyTokensButton: {
     textAlign: "center",
-    margin: "auto",
     borderRadius: "30px !important",
     fontSize: "18px"
   },
   addressStatsCard: {
-    width: "800px !important"
+    width: "650px !important"
   },
   danger: {
     color: dangerColor + "!important"
@@ -80,6 +79,9 @@ const uaeBuyTokensPageStyle = theme => ({
     marginTop: "15px",
     marginBottom: "0px",
     float: "left"
+  },
+  customInputRoot: {
+    marginBottom: "0px !important"
   }
 });
 

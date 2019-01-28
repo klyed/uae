@@ -78,7 +78,7 @@ class UAEBuyTokensPage extends React.Component {
       <div className={classes.container}>
         <div className={classes.container}>
           <GridContainer justify="center">
-            <GridItem xs={12} sm={6} md={4}>
+            <GridItem xs={12} sm={6} md={5}>
               <Card className={classes[this.state.cardAnimation]}>
                 <CardHeader color="info" stats icon>
                   <Tooltip
@@ -102,7 +102,7 @@ class UAEBuyTokensPage extends React.Component {
                 <CardFooter stats className={classes.justifyContentCenter}>
                   <div className={classes.textCenter}>
                     <Button
-                      color="info"
+                      color="rose"
                       size="lg"
                       className={classes.buyTokensButton}
                       onClick={this.handleBuyTokens}
@@ -113,16 +113,12 @@ class UAEBuyTokensPage extends React.Component {
                 </CardFooter>
               </Card>
             </GridItem>
-          </GridContainer>
-        </div>
-        <div className={classes.container}>
-          <GridContainer justify="center">
-            <GridItem xs={12} sm={6} md={4}>
+            <GridItem xs={12} sm={6} md={7}>
               <Card className={classes[this.state.addressCardAnimation]}>
                 <CardHeader color="info" stats icon>
                   <Tooltip
                     id="tooltip-bottom"
-                    title="Token Address Stats Panel"
+                    title="Token Wallet Stats Panel"
                     placement="bottom"
                     classes={{ tooltip: classes.tooltip }}
                   >
@@ -134,8 +130,8 @@ class UAEBuyTokensPage extends React.Component {
                 </CardHeader>
                 <CardBody>
                   <h5 className={classes.textCenter}>
-                    Enter the ERC20 compatible wallet address that you used to
-                    buy [TOKEN] tokens:
+                    Enter the ERC20 wallet address that you used to buy [TOKEN]
+                    tokens:
                   </h5>
                   <form>
                     <CustomInput
@@ -144,7 +140,10 @@ class UAEBuyTokensPage extends React.Component {
                       labelText="Token Address *"
                       id="tokenAddress"
                       formControlProps={{
-                        fullWidth: true
+                        fullWidth: true,
+                        classes: {
+                          root: classes.customInputRoot
+                        }
                       }}
                       inputProps={{
                         onChange: this.handleTokenAddressChange,
@@ -167,48 +166,48 @@ class UAEBuyTokensPage extends React.Component {
                 <CardFooter stats className={classes.justifyContentCenter}>
                   <div className={classes.textCenter}>
                     <h3>Current Balance: 0 TOKENS</h3>
-                    <GridContainer>
-                      <GridItem xs={12}>
-                        <Card>
-                          <CardHeader color="info" icon>
-                            <CardIcon color="info">
-                              <Assignment />
-                            </CardIcon>
-                            <h4 className={classes.cardIconTitle}>
-                              Transaction History
-                            </h4>
-                          </CardHeader>
-                          <CardBody>
-                            <Table
-                              tableHeaderColor="primary"
-                              tableHead={[
-                                "Transaction Id",
-                                "From Address",
-                                "To Address",
-                                "Amount",
-                                "Status"
-                              ]}
-                              tableData={[]}
-                              coloredColls={[3]}
-                              colorsColls={["primary"]}
-                            />
-                          </CardBody>
-                        </Card>
-                      </GridItem>
-                    </GridContainer>
                   </div>
                 </CardFooter>
               </Card>
             </GridItem>
           </GridContainer>
         </div>
+        <div className={classes.container}>
+          <GridContainer>
+            <GridItem xs={12}>
+              <Card>
+                <CardHeader color="info" icon>
+                  <CardIcon color="info">
+                    <Assignment />
+                  </CardIcon>
+                  <h4 className={classes.cardIconTitle}>Transaction History</h4>
+                </CardHeader>
+                <CardBody>
+                  <Table
+                    tableHeaderColor="primary"
+                    tableHead={[
+                      "Transaction Id",
+                      "From Address",
+                      "To Address",
+                      "Amount",
+                      "Status"
+                    ]}
+                    tableData={[]}
+                    coloredColls={[3]}
+                    colorsColls={["primary"]}
+                  />
+                </CardBody>
+              </Card>
+            </GridItem>
+          </GridContainer>
         </div>
-        );
-      }
-    }
-    
+      </div>
+    );
+  }
+}
+
 UAEBuyTokensPage.propTypes = {
-          classes: PropTypes.object.isRequired
-      };
-      
-      export default withStyles(uaeBuyTokensPageStyle)(UAEBuyTokensPage);
+  classes: PropTypes.object.isRequired
+};
+
+export default withStyles(uaeBuyTokensPageStyle)(UAEBuyTokensPage);
