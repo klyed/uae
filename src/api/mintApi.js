@@ -1,5 +1,3 @@
-import cc from 'cryptocompare';
-import TokenMintERC20TokenJSON from '../contracts/TokenMintERC20Token.json';
 import UAETokenJSON from '../contracts/UAEToken.json';
 import CMIRPDCrowdsaleJSON from '../contracts/CMIRPDCrowdsale.json';
 import Web3 from 'web3';
@@ -101,89 +99,6 @@ export function getTokenBalance(contractInstance, account) {
   });
 }
 
-export function checkAccountFunds(account) {
-  return new Promise((accept, reject) => {
-    getFee().then(fee => {
-      getEthBalance(account).then(balance => {
-        // TODO: 0.01 ETH is just an estimation of gas costs for deploying a contract and paying a fee
-        //accept(balance - fee - 0.01 > 0);
-        accept({
-          accountBalance: parseFloat(balance),
-          serviceFee: fee
-        });
-        return;
-      }).catch((e) => {
-        reject(e);
-        return;
-      });
-    }).catch((e) => {
-      reject(e);
-      return;
-    });
-  });
-}
-
-
-function instantiateContract(tokenContract, name, symbol, decimals, totalSupply, tokenOwnerAccount, payingAccount) {
-  return new Promise((accept, reject) => {
-    // used for converting big number to string without scientific notation
-    BigNumber.config({ EXPONENTIAL_AT: 100 });
-    let myContract = new web3.eth.Contract(tokenContract.abi, {
-      from: payingAccount
-    });
-    myContract.deploy({
-      data: tokenContract.bytecode,
-      arguments: [name, symbol, decimals, new BigNumber(totalSupply * 10 ** decimals).toString(), tokenOwnerAccount],
-    }).send({
-      from: payingAccount,
-      gas: 4712388,
-    }).on('error', (error) => {
-      reject(error);
-      return;
-    }).on('transactionHash', (txHash) => {
-      accept(txHash);
-      return;
-    });
-  });
-}
-
-/**
- * Deploys TokenMintERC20Token or TokenMintERC223Token contract.
- *
- * @param {string}   tokenName                token name
- * @param {string}   tokenSymbol              token symbol, 3-4 chars
- * @param {Number}   decimals                 number of decimals token will have, 18 is common
- * @param {Number}   totalSupply              total supply of tokens (in full tokens). tokenOwner will own totalSupply after deployment.
- * @param {string}   tokenType                token type, if "erc20" deploys TokenMintERC20Token, otherwise TokenMintERC223Token contract
- * @param {string}   tokenOwner               address that is initial token owner
- * @param {Number}   serviceFee               service fee in ETH for contract deployment
- * @param {string}   payingAccount            address used for deployments, pays mining and service fees
- * @return {string}                           contract deployment transaction hash
- */
-/*export function mintTokens(tokenName, tokenSymbol, decimals, totalSupply, tokenType, tokenOwner, serviceFee, payingAccount) {
-  return new Promise((accept, reject) => {
-    getEthBalance(tokenOwner).then(accountBalance => {
-      if (accountBalance - serviceFee - 0.02 > 0) {
-        let tokenContract = TokenMintERC20TokenJSON;//tokenType === "erc20" ? TokenMintERC20TokenJSON : TokenMintERC223TokenJSON;
-        instantiateContract(tokenContract, tokenName, tokenSymbol, decimals, totalSupply, tokenOwner, payingAccount).then(txHash => {
-          accept(txHash);
-          return;
-        }).catch((e) => {
-          console.log(e)
-          reject(new Error("Could not create contract."));
-          return;
-        });
-      } else {
-        reject(new Error("Account: " + tokenOwner + " doesn't have enough funds to pay for service."));
-        return;
-      }
-    }).catch((e) => {
-      reject(new Error("Could not check token owner ETH funds."));
-      return;
-    });
-  });
-}*/
-
 function instantiateCrowdsaleContracts(contractJSON, constructorArguments, contractCreator) {
   return new Promise((accept, reject) => {
     let myContract = new web3.eth.Contract(contractJSON.abi, {
@@ -231,15 +146,15 @@ function deployCrowdsaleToken(contractJSON, contractCreator, name, symbol, decim
 }
 
 /**
- * Deploys CMIRPDCrowdsale contracts. First it deploys TokenMintERC20MintableToken,
+ * Deploys token and crowdsale contracts. First it deploys UAEToken,
  * and then CMIRPDCrowdsale.
  *
  * @param {string}   owner                    address used for deployments, contract creator
  * @param {Object[]} tokenArgs                array containing arguments for TokenMintERC20MintableToken deployment
- * @param {Object[]} crowdsaleArgs            array containing arguments for CMRPDCrowdsale deployment
+ * @param {Object[]} crowdsaleArgs            array containing arguments for CMIRPDCrowdsale deployment
  * @return {Object}                           object containing token and crowdsale receipts
  */
-export function deployCMIRPDCrowdsale(owner, tokenArgs, crowdsaleArgs) {
+export function deployTokenAndCrowdsale(owner, tokenArgs, crowdsaleArgs) {
   return new Promise((accept, reject) => {
     getEthBalance(owner).then(accountBalanceETH => {
       deployCrowdsaleToken(UAETokenJSON, owner, ...tokenArgs).then(tokenReceipt => {
@@ -264,6 +179,41 @@ export function deployCMIRPDCrowdsale(owner, tokenArgs, crowdsaleArgs) {
         });
       }).catch(() => {
         reject(new Error("Could not deploy UAEToken contract."));
+        return;
+      });
+    }).catch(() => {
+      reject(new Error("Could not check token owner ETH funds."));
+      return;
+    });
+  });
+}
+
+/**
+ * Deploys CMIRPDCrowdsale contract. 
+ *
+ * @param {string}   owner                    address used for deployments, contract creator
+ * @param {Object[]} crowdsaleArgs            array containing arguments for CMIRPDCrowdsale deployment
+ * @return {Object}                           object containing token and crowdsale receipts
+ */
+export function deployCrowdsale(owner, crowdsaleArgs) {
+  return new Promise((accept, reject) => {
+    getEthBalance(owner).then(accountBalanceETH => {
+      instantiateCrowdsaleContracts(CMIRPDCrowdsaleJSON, crowdsaleArgs, owner).then(crowdsaleReceipt => {
+        // add minter role to crowdsale contract
+        let tokenInstance = new web3.eth.Contract(UAETokenJSON.abi, crowdsaleArgs[5]);
+        tokenInstance.methods.addMinter(crowdsaleReceipt.contractAddress).send({ from: owner }).then(() => {
+          accept({
+            tokenReceipt: tokenReceipt,
+            crowdsaleReceipt: crowdsaleReceipt,
+          });
+          return;
+        }).catch((e) => {
+          console.log(e)
+          reject(new Error("Could not transfer minter role."));
+          return;
+        });
+      }).catch(() => {
+        reject(new Error("Could not deploy CMIRPDCrowdsale contract."));
         return;
       });
     }).catch(() => {
