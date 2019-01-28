@@ -18,6 +18,10 @@ export function getTokenBalance(address) {
 }
 
 export function getTxHistory(address) {
+  let logs = api.log.getLogs(tokenContractAddress, 1, "latest");
+  logs.then(returnValue => {
+    console.log(returnValue);
+  });
   return new Promise(accept => {
     var txList = api.account.tokentx(
       address,
