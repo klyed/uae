@@ -231,31 +231,6 @@ function deployCrowdsaleToken(contractJSON, contractCreator, name, symbol, decim
 }
 
 /**
- * Adds minter role to the new minter address, and renounces the minter role of the current minter.
- *
- * @param {string} tokenContractAddress       address of the deployed TokenMintERC20MintableToken contract
- * @param {string} currentMinterAddress       address of the current minter, to be renounced
- * @param {string} newMinterAddress           address that gets the minter role
- */
-function transferMinterRole(tokenContractAddress, currentMinterAddress, newMinterAddress) {
-  return new Promise((accept, reject) => {
-    let tokenInstance = new web3.eth.Contract(UAETokenJSON.abi, tokenContractAddress);
-    tokenInstance.methods.addMinter(newMinterAddress).send({ from: currentMinterAddress }).then(() => {
-      tokenInstance.methods.renounceMinter().send({ from: currentMinterAddress }).then(() => {
-        accept();
-        return;
-      }).catch(() => {
-        reject(new Error("Could not renounce minter role. Minter role address: " + currentMinterAddress));
-        return;
-      });
-    }).catch(() => {
-      reject(new Error("Could not add minter role. New minter role address: " + newMinterAddress));
-      return;
-    });
-  });
-}
-
-/**
  * Deploys CMIRPDCrowdsale contracts. First it deploys TokenMintERC20MintableToken,
  * and then CMIRPDCrowdsale.
  *
@@ -270,7 +245,9 @@ export function deployCMIRPDCrowdsale(owner, tokenArgs, crowdsaleArgs) {
       deployCrowdsaleToken(UAETokenJSON, owner, ...tokenArgs).then(tokenReceipt => {
         crowdsaleArgs[5] = tokenReceipt.contractAddress;
         instantiateCrowdsaleContracts(CMIRPDCrowdsaleJSON, crowdsaleArgs, owner).then(crowdsaleReceipt => {
-          transferMinterRole(tokenReceipt.contractAddress, owner, crowdsaleReceipt.contractAddress).then(() => {
+          // add minter role to crowdsale contract
+          let tokenInstance = new web3.eth.Contract(UAETokenJSON.abi, tokenReceipt.contractAddress);
+          tokenInstance.methods.addMinter(crowdsaleReceipt.contractAddress).send({ from: owner }).then(() => {
             accept({
               tokenReceipt: tokenReceipt,
               crowdsaleReceipt: crowdsaleReceipt,
