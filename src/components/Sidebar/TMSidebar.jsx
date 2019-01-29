@@ -379,12 +379,6 @@ class TMSidebar extends React.Component {
           rtlActive && this.props.miniActive && this.state.miniActive,
         [classes.logoNormalRTL]: rtlActive
       });
-    const logoMini =
-      classes.logoMini +
-      " " +
-      cx({
-        [classes.logoMiniRTL]: rtlActive
-      });
     const logoClasses =
       classes.logo +
       " " +
@@ -393,7 +387,12 @@ class TMSidebar extends React.Component {
       });
     var brand = (
       <div className={logoClasses}>
-        <a href="https://merkleblue.com/" className={logoNormal}>
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://merkleblue.com/"
+          className={logoNormal}
+        >
           <img src={logo} alt="logo" className={classes.img} />
         </a>
       </div>
@@ -419,7 +418,7 @@ class TMSidebar extends React.Component {
       <div ref="mainPanel">
         <Hidden mdUp implementation="css">
           <Drawer
-            variant="temporary"
+            variant="permanent"
             anchor={rtlActive ? "left" : "right"}
             open={this.props.open}
             classes={{
