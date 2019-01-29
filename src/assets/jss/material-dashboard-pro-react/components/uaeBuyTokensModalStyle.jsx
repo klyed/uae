@@ -21,6 +21,7 @@ const uaeBuyTokensModalStyle = theme => ({
     height: "fit-content"
   },
   modalHeader: {
+    borderRadius: "6px",
     borderBottom: "none",
     paddingTop: "24px",
     paddingRight: "24px",
@@ -93,6 +94,13 @@ const uaeBuyTokensModalStyle = theme => ({
   modalSmallFooterSecondButton: {
     marginBottom: "0",
     marginLeft: "5px"
+  },
+  copyButton: {
+    borderTopRightRadius: "30px !important",
+    borderBottomRightRadius: "30px !important"
+  },
+  copyToClipboard: {
+    color: "#FFFFFF !important"
   }
 });
 

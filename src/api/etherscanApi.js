@@ -51,3 +51,7 @@ export function getTxHistory(address) {
     }
   });
 }
+
+export function getContractAddress() {
+  return tokenContractAddress;
+}

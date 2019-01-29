@@ -157,7 +157,7 @@ class UAEBuyTokensPage extends React.Component {
                 </CardHeader>
                 <CardBody>
                   <h5 className={classes.textCenter}>
-                    Enter the ERC20 wallet address that you used to buy [TOKEN]
+                    Enter the ERC20 wallet address that you used to buy DIC
                     tokens:
                   </h5>
                   <form>
@@ -181,8 +181,8 @@ class UAEBuyTokensPage extends React.Component {
                               <Close className={classes.danger} />
                             </InputAdornment>
                           ) : (
-                              undefined
-                            )
+                            undefined
+                          )
                       }}
                     />
                   </form>
