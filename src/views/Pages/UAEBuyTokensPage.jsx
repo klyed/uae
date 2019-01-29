@@ -213,12 +213,11 @@ class UAEBuyTokensPage extends React.Component {
                 <CardBody>
                   <Table
                     hover
-                    customClassesForCells={[0, 1, 2, 3, 4]}
+                    customClassesForCells={[0, 1, 2, 3]}
                     customCellClasses={[
                       classes.address,
                       classes.address,
                       classes.address,
-                      classes.textCenter,
                       classes.textCenter
                     ]}
                     tableHeaderColor="primary"
@@ -226,8 +225,7 @@ class UAEBuyTokensPage extends React.Component {
                       "Transaction Id",
                       "From Address",
                       "To Address",
-                      "Amount",
-                      "Status"
+                      "Amount"
                     ]}
                     tableData={this.state.txHistory}
                   />

@@ -16,43 +16,35 @@ export function getTokenBalance(address) {
       "latest"
     );
     getBalance.then(returnValue => {
-      accept(parseInt(returnValue.result) / 1000000000000000000);
+      accept(parseInt(returnValue.result, 16) / 1000000000000000000);
     });
   });
 }
 
 export function getTxHistory(address) {
-  let logs = api.log.getLogs(tokenContractAddress, 1, "latest");
-  logs.then(returnValue => {
-    console.log(returnValue);
-  });
+  let topicsFilter =
+    "0x000000000000000000000000" + address.substring(2, address.length);
+  let topicData = web3.utils.sha3("Transfer(address,address,uint256)");
   return new Promise(accept => {
-    var txList = api.account.tokentx(
-      address,
-      tokenContractAddress,
-      1,
-      "latest",
-      "asc"
-    );
-    txList.then(returnValue => {
-      console.log(returnValue);
+    let logs = api.log.getLogs(tokenContractAddress, 1, "latest", topicData);
+    logs.then(returnValue => {
+      let addressRelatedRawTransactions = returnValue.result.filter(logItem => {
+        return (
+          logItem.topics[1] === topicsFilter ||
+          logItem.topics[2] === topicsFilter
+        );
+      });
+      let addressRelatedTransactions = addressRelatedRawTransactions.map(logItem => {
+        return [
+          logItem.transactionHash,
+          "0x" + logItem.topics[1].substring(26, logItem.topics[1].length),
+          "0x" + logItem.topics[2].substring(26, logItem.topics[2].length),
+          parseInt(logItem.data, 16) / 1000000000000000000
+        ];
+      });
+      accept(addressRelatedTransactions);
+      return;
     });
-    if (address) {
-      const result = [
-        [
-          "0xC5fdf4076b8F3A5357c5E395ab970B5B54098Fef",
-          "0xC5fdf4076b8F3A5357c5E395ab970B5B54098Fef",
-          "0xC5fdf4076b8F3A5357c5E395ab970B5B54098Fef",
-          "3",
-          "locked"
-        ]
-      ];
-      accept(result);
-      return;
-    } else {
-      accept([[]]);
-      return;
-    }
   });
 }
 
