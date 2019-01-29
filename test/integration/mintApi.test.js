@@ -5,6 +5,9 @@ const mintApi = require('../../src/api/mintApi');
 import fetch from 'node-fetch';
 import { BigNumber } from 'bignumber.js';
 import ERC20TokenJSON from '../../src/contracts/TokenMintERC20Token.json';
+import ERC223TokenJSON from '../../src/contracts/TokenMintERC223Token.json';
+
+
 let web3, accounts;
 let tokenMintAccount = "0x6603cb70464ca51481d4edBb3B927F66F53F4f42";
 let token = {
@@ -39,6 +42,13 @@ describe('mintApi integration tests', function () {
     });
   });
 
+  it('Get fee', (done) => {
+    mintApi.getFee().then(fee => {
+      expect(fee).to.be.greaterThan(0.01);
+      done();
+    });
+  });
+
   it('Get ETH balance with empty account', (done) => {
     mintApi.getEthBalance('0x1000000000000000000000000000000000000000').then(actual => {
       expect(web3.utils.fromWei(actual, 'ether')).to.be.eq('0');
@@ -64,12 +74,68 @@ describe('mintApi integration tests', function () {
     });
   });
 
-  /*it('Mint ERC-20 tokens', (done) => {
+  it('Pay service fee when creating ERC20', (done) => {
+    let tokenType = 'erc20';
+    let serviceFee = 0.02;
+    mintApi.getEthBalance(tokenMintAccount).then(tokenMintBalanceBefore => {
+      mintApi.mintTokens(token.name, token.symbol, token.decimals, token.totalSupply, tokenType, accounts[0], serviceFee, accounts[0]).then(contractInstance => {
+        mintApi.getEthBalance(tokenMintAccount).then(tokenMintBalanceAfter => {
+          assert.closeTo(new Number(tokenMintBalanceAfter).valueOf(), new Number(tokenMintBalanceBefore).valueOf() + serviceFee, 0.000001)
+          done();
+        });
+      });
+    });
+  });
+
+  it('Pay service fee when creating ERC223', (done) => {
+    let tokenType = 'erc223';
+    let serviceFee = 0.0223;
+    mintApi.getEthBalance(tokenMintAccount).then(tokenMintBalanceBefore => {
+      mintApi.mintTokens(token.name, token.symbol, token.decimals, token.totalSupply, tokenType, accounts[0], serviceFee, accounts[0]).then(contractInstance => {
+        mintApi.getEthBalance(tokenMintAccount).then(tokenMintBalanceAfter => {
+          assert.closeTo(new Number(tokenMintBalanceAfter).valueOf(), new Number(tokenMintBalanceBefore).valueOf() + serviceFee, 0.000001)
+          done();
+        });
+      });
+    });
+  });
+
+  it('Mint ERC-20 tokens', (done) => {
     let tokenType = 'erc20';
     let serviceFee = 0.01;
     mintApi.mintTokens(token.name, token.symbol, token.decimals, token.totalSupply, tokenType, accounts[0], serviceFee, accounts[0]).then(txHash => {
       web3.eth.getTransactionReceipt(txHash).then(receipt => {
         let contractInstance = new web3.eth.Contract(ERC20TokenJSON.abi, receipt.contractAddress);
+        mintApi.getTokenBalance(contractInstance, accounts[0]).then(actualTokenBalance => {
+          contractInstance.methods.name().call().then(actualName => {
+            contractInstance.methods.symbol().call().then(actualSymbol => {
+              contractInstance.methods.decimals().call().then(actualDecimals => {
+                contractInstance.methods.totalSupply().call().then(actualTotalSupply => {
+                  expect(parseInt(actualTokenBalance)).to.be.eq(token.totalSupply);
+                  expect(actualName).to.be.eq(token.name);
+                  expect(actualSymbol).to.be.eq(token.symbol);
+                  expect(parseInt(actualDecimals)).to.be.eq(token.decimals);
+                  expect(parseInt(actualTotalSupply)).to.be.eq(token.totalSupply * 10 ** token.decimals);
+                  done();
+                });
+              });
+            });
+          });
+        }).catch(e => {
+          done(new Error());
+        });
+      });
+    }).catch(e => {
+      done(new Error());
+    });
+  });
+
+  it('Mint ERC-223 tokens', (done) => {
+    let tokenType = 'erc223';
+    let serviceFee = 0.01;
+    mintApi.mintTokens(token.name, token.symbol, token.decimals, token.totalSupply, tokenType, accounts[0], serviceFee, accounts[0]).then(txHash => {
+      web3.eth.getTransactionReceipt(txHash).then(receipt => {
+        let contractInstance = new web3.eth.Contract(ERC223TokenJSON.abi, receipt.contractAddress);
         mintApi.getTokenBalance(contractInstance, accounts[0]).then(actualTokenBalance => {
           contractInstance.methods.name().call().then(actualName => {
             contractInstance.methods.symbol().call().then(actualSymbol => {
@@ -119,5 +185,32 @@ describe('mintApi integration tests', function () {
         done(new Error());
       });
     });
-  });*/
+  });
+
+  it('ERC223 transfer', (done) => {
+    let tokenType = 'erc223';
+    let serviceFee = 0.01;
+    mintApi.mintTokens(token.name, token.symbol, token.decimals, token.totalSupply, tokenType, accounts[0], serviceFee, accounts[0]).then(txHash => {
+      web3.eth.getTransactionReceipt(txHash).then(receipt => {
+        let contractInstance = new web3.eth.Contract(ERC20TokenJSON.abi, receipt.contractAddress);
+        mintApi.getTokenBalance(contractInstance, accounts[0]).then(actualTokenBalance => {
+          expect(parseInt(actualTokenBalance)).to.be.eq(token.totalSupply);
+          contractInstance.methods.transfer(accounts[1], new BigNumber(223 * 10 ** token.decimals).toString()).send({ from: accounts[0] }).then(receipt => {
+            mintApi.getTokenBalance(contractInstance, accounts[1]).then(actualTokenBalance => {
+              expect(parseInt(actualTokenBalance)).to.be.eq(223);
+              done();
+            }).catch(e => {
+              done(new Error(e));
+            });
+          }).catch(e => {
+            done(new Error(e));
+          });
+        }).catch(e => {
+          done(new Error(e));
+        });
+      }).catch(e => {
+        done(new Error());
+      });
+    });
+  });
 });
