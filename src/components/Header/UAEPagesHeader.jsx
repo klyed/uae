@@ -43,7 +43,7 @@ class UAEPagesHeader extends React.Component {
               <img src={merkleBlueLogo} alt="Company Logo" />
             </div>
           </Hidden>
-          <h3 className={classes.text}>[Token Name] Crowdsale</h3>
+          <h3 className={classes.text}>DIC Token Crowdsale</h3>
         </Toolbar>
       </AppBar>
     );
