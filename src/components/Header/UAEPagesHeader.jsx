@@ -9,7 +9,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Hidden from "@material-ui/core/Hidden";
 
 // logo image
-import merkleBlueLogo from "assets/img/merkle-blue-logo.png";
+import merkleBlueLogo from "assets/img/dic-fam-logo.png";
 
 import uaePagesHeaderStyle from "assets/jss/material-dashboard-pro-react/components/uaePagesHeaderStyle.jsx";
 
@@ -43,7 +43,7 @@ class UAEPagesHeader extends React.Component {
               <img src={merkleBlueLogo} alt="Company Logo" />
             </div>
           </Hidden>
-          <h3 className={classes.text}>[Token Name] Crowdsale</h3>
+          <h3 className={classes.text}>DIC Token Crowdsale</h3>
         </Toolbar>
       </AppBar>
     );

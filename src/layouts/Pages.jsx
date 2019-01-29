@@ -13,7 +13,7 @@ import pagesRoutes from "routes/pages.jsx";
 
 import pagesStyle from "assets/jss/material-dashboard-pro-react/layouts/pagesStyle.jsx";
 
-import bgImage from "assets/img/particles.gif";
+import bgImage from "assets/img/plain-black-background.jpg";
 
 class Pages extends React.Component {
   componentDidMount() {

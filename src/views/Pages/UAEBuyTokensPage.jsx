@@ -24,6 +24,9 @@ import CardHeader from "components/Card/CardHeader.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
 import Table from "components/Table/Table.jsx";
 
+// custom components
+import UAEBuyTokensModal from "components/Modal/UAEBuyTokensModal.jsx";
+
 import InputValidator from "tools/InputValidator";
 import { getTokenBalance, getTxHistory } from "api/etherscanApi";
 
@@ -38,11 +41,14 @@ class UAEBuyTokensPage extends React.Component {
       addressCardAnimation: "cardHidden",
       tokenWalletAddressValid: "",
       tokenOwnerBalance: 0,
-      txHistory: [[]]
+      txHistory: [[]],
+      isModalOpen: false
     };
     this.handleBuyTokens = this.handleBuyTokens.bind(this);
     this.handleTokenAddressChange = this.handleTokenAddressChange.bind(this);
+    this.handleCloseModal = this.handleCloseModal.bind(this);
   }
+
   componentDidMount() {
     // we add a hidden class to the card and after 700 ms we delete it and the transition appears
     this.timeOutFunction = setTimeout(
@@ -55,13 +61,18 @@ class UAEBuyTokensPage extends React.Component {
       500
     );
   }
+
   componentWillUnmount() {
     clearTimeout(this.timeOutFunction);
     this.timeOutFunction = null;
   }
 
-  handleBuyTokens() {
-    alert("buying tokens!");
+  handleBuyTokens(e) {
+    this.setState({ isModalOpen: true });
+  }
+
+  handleCloseModal(e) {
+    this.setState({ isModalOpen: false });
   }
 
   handleTokenAddressChange(e) {
@@ -88,6 +99,10 @@ class UAEBuyTokensPage extends React.Component {
     const { classes } = this.props;
     return (
       <div className={classes.container}>
+        <UAEBuyTokensModal
+          isModalOpen={this.state.isModalOpen}
+          handleCloseModal={this.handleCloseModal}
+        />
         <div className={classes.container}>
           <GridContainer justify="center">
             <GridItem xs={12} sm={6} md={5}>
@@ -103,7 +118,7 @@ class UAEBuyTokensPage extends React.Component {
                       <PaymentIcon />
                     </CardIcon>
                   </Tooltip>
-                  <h3 className={classes.cardTitle}>1 TOKEN = 1 ETH</h3>
+                  <h3 className={classes.cardTitle}>1 DIC = 1 ETH</h3>
                 </CardHeader>
                 <CardBody>
                   <h4 className={classes.textCenter}>
@@ -142,7 +157,7 @@ class UAEBuyTokensPage extends React.Component {
                 </CardHeader>
                 <CardBody>
                   <h5 className={classes.textCenter}>
-                    Enter the ERC20 wallet address that you used to buy [TOKEN]
+                    Enter the ERC20 wallet address that you used to buy DIC
                     tokens:
                   </h5>
                   <form>
@@ -177,7 +192,7 @@ class UAEBuyTokensPage extends React.Component {
                     <h3>
                       {"Current Balance: "}
                       {this.state.tokenOwnerBalance}
-                      {" TOKENS"}
+                      {" DIC"}
                     </h3>
                   </div>
                 </CardFooter>
@@ -198,12 +213,11 @@ class UAEBuyTokensPage extends React.Component {
                 <CardBody>
                   <Table
                     hover
-                    customClassesForCells={[0, 1, 2, 3, 4]}
+                    customClassesForCells={[0, 1, 2, 3]}
                     customCellClasses={[
                       classes.address,
                       classes.address,
                       classes.address,
-                      classes.textCenter,
                       classes.textCenter
                     ]}
                     tableHeaderColor="primary"
@@ -211,8 +225,7 @@ class UAEBuyTokensPage extends React.Component {
                       "Transaction Id",
                       "From Address",
                       "To Address",
-                      "Amount",
-                      "Status"
+                      "Amount"
                     ]}
                     tableData={this.state.txHistory}
                   />
