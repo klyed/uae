@@ -12,14 +12,13 @@ import withStyles from "@material-ui/core/styles/withStyles";
 // core components
 import Header from "components/Header/Header.jsx";
 import Footer from "components/Footer/Footer.jsx";
-import Sidebar from "components/Sidebar/Sidebar.jsx";
+import TMSidebar from "components/Sidebar/TMSidebar.jsx";
 
 import dashboardRoutes from "routes/dashboard.jsx";
 
 import appStyle from "assets/jss/material-dashboard-pro-react/layouts/dashboardStyle.jsx";
 
-import image from "assets/img/sidebar-2.jpg";
-import logo from "assets/img/logo-white.svg";
+import logo from "assets/img/merkle-blue-logo.png";
 
 const switchRoutes = (
   <Switch>
@@ -98,11 +97,9 @@ class TMDashboard extends React.Component {
       });
     return (
       <div className={classes.wrapper}>
-        <Sidebar
+        <TMSidebar
           routes={dashboardRoutes}
-          logoText={"Creative Tim"}
           logo={logo}
-          image={image}
           handleDrawerToggle={this.handleDrawerToggle}
           open={this.state.mobileOpen}
           color="blue"
