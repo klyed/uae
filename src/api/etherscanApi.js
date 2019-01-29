@@ -10,8 +10,12 @@ export function getTokenBalance(address) {
       paramData +
       "000000000000000000000000" +
       address.substring(2, address.length);
-    let test = api.proxy.eth_call(tokenContractAddress, paramData, "latest");
-    test.then(returnValue => {
+    let getBalance = api.proxy.eth_call(
+      tokenContractAddress,
+      paramData,
+      "latest"
+    );
+    getBalance.then(returnValue => {
       accept(parseInt(returnValue.result) / 1000000000000000000);
     });
   });

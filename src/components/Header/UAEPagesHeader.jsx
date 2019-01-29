@@ -9,7 +9,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Hidden from "@material-ui/core/Hidden";
 
 // logo image
-import merkleBlueLogo from "assets/img/merkle-blue-logo.png";
+import merkleBlueLogo from "assets/img/dic-fam-logo.png";
 
 import uaePagesHeaderStyle from "assets/jss/material-dashboard-pro-react/components/uaePagesHeaderStyle.jsx";
 
