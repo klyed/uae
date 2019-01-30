@@ -366,7 +366,7 @@ TMSidebar.propTypes = {
   logo: PropTypes.string.isRequired,
   ercRoutes: PropTypes.arrayOf(PropTypes.object),
   icoRoutes: PropTypes.arrayOf(PropTypes.object),
-  location: PropTypes.string.isRequired
+  location: PropTypes.object.isRequired
 };
 
 export default withStyles(tmSidebarStyle)(TMSidebar);
