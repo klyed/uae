@@ -4,7 +4,7 @@ import Web3 from 'web3';
 const mintApi = require('../../src/api/mintApi');
 import fetch from 'node-fetch';
 import { BigNumber } from 'bignumber.js';
-import UAETokenJSON from '../../src/contracts/UAEToken.json';
+import TokenMintERC20MintablePausableTokenJSON from '../../src/contracts/TokenMintERC20MintablePausableToken.json';
 import CMIRPDCrowdsaleJSON from '../../src/contracts/CMIRPDCrowdsale.json';
 
 let web3, accounts;
@@ -231,7 +231,7 @@ describe('CMRIPDCrowdsale integration tests', function () {
             expect(receipt.status).to.be.eq(true);
 
             // check token balance after investment, should be 0 before finalization is called
-            let tokenInstance = new web3.eth.Contract(UAETokenJSON.abi, receipts.tokenReceipt.contractAddress);
+            let tokenInstance = new web3.eth.Contract(TokenMintERC20MintablePausableTokenJSON.abi, receipts.tokenReceipt.contractAddress);
             mintApi.getTokenBalance(tokenInstance, investor1).then(actualTokenBalance => {
               expect(parseInt(actualTokenBalance)).to.be.eq(0);
 
@@ -336,7 +336,7 @@ describe('CMRIPDCrowdsale integration tests', function () {
             expect(receipt.status).to.be.eq(true);
 
             // check token balance after investment, should be 0 before finalization is called
-            let tokenInstance = new web3.eth.Contract(UAETokenJSON.abi, receipts.tokenReceipt.contractAddress);
+            let tokenInstance = new web3.eth.Contract(TokenMintERC20MintablePausableTokenJSON.abi, receipts.tokenReceipt.contractAddress);
             mintApi.getTokenBalance(tokenInstance, investor1).then(actualTokenBalance => {
               expect(parseInt(actualTokenBalance)).to.be.eq(0);
 
@@ -535,7 +535,7 @@ describe('CMRIPDCrowdsale integration tests', function () {
                   crowdsaleInstance.methods.claimRefund(investor1).send({ from: investor1 }).then(() => {
 
                     // check token balance after investment, should be 0 after finalization and withdrawal since goal not met
-                    let tokenInstance = new web3.eth.Contract(UAETokenJSON.abi, receipts.tokenReceipt.contractAddress);
+                    let tokenInstance = new web3.eth.Contract(TokenMintERC20MintablePausableTokenJSON.abi, receipts.tokenReceipt.contractAddress);
                     mintApi.getTokenBalance(tokenInstance, investor1).then(actualTokenBalance => {
                       expect(parseInt(actualTokenBalance)).to.be.eq(0);
 
@@ -1051,7 +1051,7 @@ describe('CMRIPDCrowdsale integration tests', function () {
       expect(receipts.crowdsaleReceipt.status).to.be.eq(true);
 
       // pause tokens before crowdsale, no one can transfer
-      let tokenInstance = new web3.eth.Contract(UAETokenJSON.abi, receipts.tokenReceipt.contractAddress);
+      let tokenInstance = new web3.eth.Contract(TokenMintERC20MintablePausableTokenJSON.abi, receipts.tokenReceipt.contractAddress);
       tokenInstance.methods.pause().send({ from: icoMaker }).then(receipt => {
         expect(receipt.status).to.be.eq(true);
 
@@ -1109,130 +1109,6 @@ describe('CMRIPDCrowdsale integration tests', function () {
           });
         }).catch(e => {
           done(new Error(e));
-        });
-      }).catch(e => {
-        done(new Error(e));
-      });
-    }).catch(e => {
-      done(new Error(e));
-    });
-  });
-
-  it('CMIRPDCrowdsale - beneficiary withdraw before closing and goal reached', (done) => {
-    let crowdsaleArgs = [startTime, endTime, 1000, 999, icoMaker, null, web3.utils.toWei('0.1', 'ether'), web3.utils.toWei('0.03', 'ether'), 0];
-    mintApi.deployTokenAndCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
-      expect(receipts.tokenReceipt.status).to.be.eq(true);
-      expect(receipts.crowdsaleReceipt.status).to.be.eq(true);
-
-      // pause tokens before crowdsale, no one can transfer
-      let tokenInstance = new web3.eth.Contract(UAETokenJSON.abi, receipts.tokenReceipt.contractAddress);
-      tokenInstance.methods.pause().send({ from: icoMaker }).then(receipt => {
-        expect(receipt.status).to.be.eq(true);
-
-        // check icoMaker's ETH balance before investment
-        mintApi.getEthBalance(icoMaker).then(ethBalanceBefore => {
-
-          // wait 3 seconds before first investment
-          let delay = ms => new Promise((resolve) => setTimeout(resolve, ms));
-          delay(3000).then(() => {
-            // call buyTokens function of Crowdsale contract
-            let crowdsaleInstance = new web3.eth.Contract(CMIRPDCrowdsaleJSON.abi, receipts.crowdsaleReceipt.contractAddress);
-            crowdsaleInstance.methods.buyTokens(investor1).send({ from: investor1, gas: 4712388, value: web3.utils.toWei('0.04', 'ether') }).then(receipt => {
-              expect(receipt.status).to.be.eq(true);
-
-              // beneficiary withdraw before closing, anyone can call
-              crowdsaleInstance.methods.beneficiaryWithdrawBeforeClosing().send({ from: investor1 }).then(() => {
-
-                // check icoMaker's ETH balance after withdrawal, should increase
-                mintApi.getEthBalance(icoMaker).then(ethBalanceAfterWithdrawal => {
-                  expect(parseFloat(ethBalanceAfterWithdrawal) - (parseFloat(ethBalanceBefore) + 0.04)).to.be.lessThan(0.0025); // just 1 tx fee
-
-                  // wait 6 seconds so that crowdsale is closed (timed crowdsale)
-                  let delay = ms => new Promise((resolve) => setTimeout(resolve, ms));
-                  delay(6000).then(() => {
-                    // finalize sale after goal is reached, anyone can call
-                    crowdsaleInstance.methods.finalize().send({ from: icoMaker }).then(receipt => {
-                      expect(receipt.status).to.be.eq(true);
-
-                      // withdraw tokens to investors address (this is where minting takes place)
-                      crowdsaleInstance.methods.withdrawTokens(investor1).send({ from: investor1 }).then(() => {
-
-                        // check investor's token balance after withdrawal, they received tokens through minting
-                        mintApi.getTokenBalance(tokenInstance, investor1).then(actualTokenBalance => {
-                          expect(parseInt(actualTokenBalance)).to.be.eq(40);
-                          
-                          // check icoMaker's ETH balance after successful crowdsale, should increase
-                          mintApi.getEthBalance(icoMaker).then(ethBalanceAfterFinalization => {
-                            expect(parseFloat(ethBalanceAfterFinalization) - parseFloat(ethBalanceAfterWithdrawal)).to.be.lessThan(0.0025); // just 1 tx fee
-
-                            // try to transfer newly created tokens, should not be allowed 
-                            tokenInstance.methods.transfer(investor2, new BigNumber(20 * 10 ** tokenArgs[2]).toString()).send({ from: investor1 }).then(() => {
-                              done(new Error('Transfer tokens successfully called when token is paused.'));
-                            }).catch(() => {
-                              done();
-                            });
-                          }).catch(e => {
-                            done(new Error(e));
-                          });
-                        }).catch(e => {
-                          done(new Error(e));
-                        });
-                      }).catch(e => {
-                        done(new Error(e));
-                      });
-                    }).catch(e => {
-                      done(new Error(e));
-                    });
-                  });
-                }).catch(e => {
-                  done(new Error(e));
-                });
-              }).catch(e => {
-                done(new Error(e));
-              });
-            }).catch(e => {
-              done(new Error(e));
-            });
-          });
-        }).catch(e => {
-          done(new Error(e));
-        });
-      }).catch(e => {
-        done(new Error(e));
-      });
-    }).catch(e => {
-      done(new Error(e));
-    });
-  });
-
-  it('CMIRPDCrowdsale - beneficiary withdraw before closing and goal not reached', (done) => {
-    let crowdsaleArgs = [startTime, endTime, 1000, 999, icoMaker, null, web3.utils.toWei('0.1', 'ether'), web3.utils.toWei('0.03', 'ether'), 0];
-    mintApi.deployTokenAndCrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
-      expect(receipts.tokenReceipt.status).to.be.eq(true);
-      expect(receipts.crowdsaleReceipt.status).to.be.eq(true);
-
-      // pause tokens before crowdsale, no one can transfer
-      let tokenInstance = new web3.eth.Contract(UAETokenJSON.abi, receipts.tokenReceipt.contractAddress);
-      tokenInstance.methods.pause().send({ from: icoMaker }).then(receipt => {
-        expect(receipt.status).to.be.eq(true);
-
-        // wait 3 seconds before first investment
-        let delay = ms => new Promise((resolve) => setTimeout(resolve, ms));
-        delay(3000).then(() => {
-          // call buyTokens function of Crowdsale contract
-          let crowdsaleInstance = new web3.eth.Contract(CMIRPDCrowdsaleJSON.abi, receipts.crowdsaleReceipt.contractAddress);
-          crowdsaleInstance.methods.buyTokens(investor1).send({ from: investor1, gas: 4712388, value: web3.utils.toWei('0.0299', 'ether') }).then(receipt => {
-            expect(receipt.status).to.be.eq(true);
-
-            // beneficiary withdraw before closing, anyone can call
-            crowdsaleInstance.methods.beneficiaryWithdrawBeforeClosing().send({ from: icoMaker }).then(() => {
-              done(new Error('Beneficiary withdrawal successful when goal not reached.'));
-            }).catch(() => {
-              done();
-            });
-          }).catch(e => {
-            done(new Error(e));
-          });
         });
       }).catch(e => {
         done(new Error(e));
