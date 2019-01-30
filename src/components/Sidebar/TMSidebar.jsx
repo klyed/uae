@@ -363,9 +363,10 @@ TMSidebar.propTypes = {
     "purple",
     "rose"
   ]),
-  logo: PropTypes.string,
+  logo: PropTypes.string.isRequired,
   ercRoutes: PropTypes.arrayOf(PropTypes.object),
-  icoRoutes: PropTypes.arrayOf(PropTypes.object)
+  icoRoutes: PropTypes.arrayOf(PropTypes.object),
+  location: PropTypes.string.isRequired
 };
 
 export default withStyles(tmSidebarStyle)(TMSidebar);
