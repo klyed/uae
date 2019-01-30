@@ -8,13 +8,16 @@ import HourglassEmptyOutlined from "@material-ui/icons/HourglassEmptyOutlined";
 import DashboardOutlined from "@material-ui/icons/DashboardOutlined";
 import BuildOutlined from "@material-ui/icons/BuildOutlined";
 
-var dashboardRoutes = [
+export const ercDashboardRoutes = [
   {
     path: "/token",
     name: "ERC Token Generator",
     icon: MonetizationOnOutlined,
     component: Wizard
-  },
+  }
+];
+
+export const icoDashboardRoutes = [
   {
     path: "/ico",
     name: "ICO Generator",
@@ -34,4 +37,3 @@ var dashboardRoutes = [
     component: TimelinePage
   }
 ];
-export default dashboardRoutes;

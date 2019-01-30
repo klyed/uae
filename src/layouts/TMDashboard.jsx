@@ -10,16 +10,17 @@ import "perfect-scrollbar/css/perfect-scrollbar.css";
 import withStyles from "@material-ui/core/styles/withStyles";
 
 // core components
-import Footer from "components/Footer/Footer.jsx";
+import TMFooter from "components/Footer/TMFooter.jsx";
 import TMSidebar from "components/Sidebar/TMSidebar.jsx";
 
 //import dashboardRoutes from "routes/dashboard.jsx";
-import dashboardRoutes from "routes/tmDashboard.jsx";
+import { ercDashboardRoutes, icoDashboardRoutes } from "routes/tmDashboard.jsx";
 
 import appStyle from "assets/jss/material-dashboard-pro-react/layouts/tmDashboardStyle.jsx";
 
 import logo from "assets/img/merkle-blue-logo.png";
 
+const dashboardRoutes = [...ercDashboardRoutes, ...icoDashboardRoutes];
 const switchRoutes = (
   <Switch>
     {dashboardRoutes.map((prop, key) => {
@@ -98,7 +99,8 @@ class TMDashboard extends React.Component {
     return (
       <div className={classes.wrapper}>
         <TMSidebar
-          routes={dashboardRoutes}
+          ercRoutes={ercDashboardRoutes}
+          icoRoutes={icoDashboardRoutes}
           logo={logo}
           handleDrawerToggle={this.handleDrawerToggle}
           open={this.state.mobileOpen}
@@ -113,9 +115,9 @@ class TMDashboard extends React.Component {
               <div className={classes.container}>{switchRoutes}</div>
             </div>
           ) : (
-            <div className={classes.map}>{switchRoutes}</div>
-          )}
-          {this.getRoute() ? <Footer fluid /> : null}
+              <div className={classes.map}>{switchRoutes}</div>
+            )}
+          {this.getRoute() ? <TMFooter fluid /> : null}
         </div>
       </div>
     );

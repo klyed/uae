@@ -16,20 +16,15 @@ import Hidden from "@material-ui/core/Hidden";
 import Collapse from "@material-ui/core/Collapse";
 import Icon from "@material-ui/core/Icon";
 
-// core components
-import HeaderLinks from "components/Header/HeaderLinks.jsx";
-
 import tmSidebarStyle from "assets/jss/material-dashboard-pro-react/components/tmSidebarStyle.jsx";
 
-import avatar from "assets/img/faces/avatar.jpg";
-
-var ps;
+let ps;
 
 // We've created this component so we can have a ref to the wrapper of the links that appears in our sidebar.
 // This was necessary so that we could initialize PerfectScrollbar on the links.
 // There might be something with the Hidden component from material-ui, and we didn't have access to
 // the links, and couldn't initialize the plugin.
-class SidebarWrapper extends React.Component {
+class TMSidebarWrapper extends React.Component {
   componentDidMount() {
     if (navigator.platform.indexOf("Win") > -1) {
       ps = new PerfectScrollbar(this.refs.sidebarWrapper, {
@@ -44,16 +39,19 @@ class SidebarWrapper extends React.Component {
     }
   }
   render() {
-    const { className, user, headerLinks, links } = this.props;
+    const { className, links } = this.props;
     return (
       <div className={className} ref="sidebarWrapper">
-        {user}
-        {headerLinks}
         {links}
       </div>
     );
   }
 }
+
+TMSidebarWrapper.propTypes = {
+  className: PropTypes.string.isRequired,
+  links: PropTypes.object.isRequired
+};
 
 class TMSidebar extends React.Component {
   constructor(props) {
@@ -67,153 +65,33 @@ class TMSidebar extends React.Component {
       openPages: this.activeRoute("-page"),
       miniActive: true
     };
-    this.activeRoute.bind(this);
+    this.activeRoute = this.activeRoute.bind(this);
+    this.openCollapse = this.openCollapse.bind(this);
   }
+
   // verifies if routeName is the one active (in browser input)
   activeRoute(routeName) {
-    return this.props.location.pathname.indexOf(routeName) > -1 ? true : false;
+    return this.props.location.pathname === routeName;
   }
+
   openCollapse(collapse) {
-    var st = {};
+    let st = {};
     st[collapse] = !this.state[collapse];
     this.setState(st);
   }
+
   render() {
-    const { classes, color, logo, routes, bgColor, rtlActive } = this.props;
-    const itemText =
-      classes.itemText +
-      " " +
-      cx({
-        [classes.itemTextMini]: this.props.miniActive && this.state.miniActive,
-        [classes.itemTextMiniRTL]:
-          rtlActive && this.props.miniActive && this.state.miniActive,
-        [classes.itemTextRTL]: rtlActive
-      });
-    const collapseItemText =
-      classes.collapseItemText +
-      " " +
-      cx({
-        [classes.collapseItemTextMini]:
-          this.props.miniActive && this.state.miniActive,
-        [classes.collapseItemTextMiniRTL]:
-          rtlActive && this.props.miniActive && this.state.miniActive,
-        [classes.collapseItemTextRTL]: rtlActive
-      });
-    const userWrapperClass =
-      classes.user +
-      " " +
-      cx({
-        [classes.whiteAfter]: bgColor === "white"
-      });
-    const caret =
-      classes.caret +
-      " " +
-      cx({
-        [classes.caretRTL]: rtlActive
-      });
-    const collapseItemMini =
-      classes.collapseItemMini +
-      " " +
-      cx({
-        [classes.collapseItemMiniRTL]: rtlActive
-      });
-    const photo =
-      classes.photo +
-      " " +
-      cx({
-        [classes.photoRTL]: rtlActive
-      });
-    var user = (
-      <div className={userWrapperClass}>
-        <div className={photo}>
-          <img src={avatar} className={classes.avatarImg} alt="..." />
-        </div>
-        <List className={classes.list}>
-          <ListItem className={classes.item + " " + classes.userItem}>
-            <NavLink
-              to={"#"}
-              className={classes.itemLink + " " + classes.userCollapseButton}
-              onClick={() => this.openCollapse("openAvatar")}
-            >
-              <ListItemText
-                primary={rtlActive ? "تانيا أندرو" : "Tania Andrew"}
-                secondary={
-                  <b
-                    className={
-                      caret +
-                      " " +
-                      classes.userCaret +
-                      " " +
-                      (this.state.openAvatar ? classes.caretActive : "")
-                    }
-                  />
-                }
-                disableTypography={true}
-                className={itemText + " " + classes.userItemText}
-              />
-            </NavLink>
-            <Collapse in={this.state.openAvatar} unmountOnExit>
-              <List className={classes.list + " " + classes.collapseList}>
-                <ListItem className={classes.collapseItem}>
-                  <NavLink
-                    to="#"
-                    className={
-                      classes.itemLink + " " + classes.userCollapseLinks
-                    }
-                  >
-                    <span className={collapseItemMini}>
-                      {rtlActive ? "مع" : "MP"}
-                    </span>
-                    <ListItemText
-                      primary={rtlActive ? "ملفي" : "My Profile"}
-                      disableTypography={true}
-                      className={collapseItemText}
-                    />
-                  </NavLink>
-                </ListItem>
-                <ListItem className={classes.collapseItem}>
-                  <NavLink
-                    to="#"
-                    className={
-                      classes.itemLink + " " + classes.userCollapseLinks
-                    }
-                  >
-                    <span className={collapseItemMini}>
-                      {rtlActive ? "هوع" : "EP"}
-                    </span>
-                    <ListItemText
-                      primary={
-                        rtlActive ? "تعديل الملف الشخصي" : "Edit Profile"
-                      }
-                      disableTypography={true}
-                      className={collapseItemText}
-                    />
-                  </NavLink>
-                </ListItem>
-                <ListItem className={classes.collapseItem}>
-                  <NavLink
-                    to="#"
-                    className={
-                      classes.itemLink + " " + classes.userCollapseLinks
-                    }
-                  >
-                    <span className={collapseItemMini}>
-                      {rtlActive ? "و" : "S"}
-                    </span>
-                    <ListItemText
-                      primary={rtlActive ? "إعدادات" : "Settings"}
-                      disableTypography={true}
-                      className={collapseItemText}
-                    />
-                  </NavLink>
-                </ListItem>
-              </List>
-            </Collapse>
-          </ListItem>
-        </List>
-      </div>
-    );
-    var links = (
+    const {
+      classes,
+      color,
+      logo,
+      ercRoutes,
+      icoRoutes,
+      bgColor,
+      rtlActive
+    } = this.props;
+
+    const generateLinks = routes => (
       <List className={classes.list}>
         {routes.map((prop, key) => {
           if (prop.redirect) {
@@ -269,8 +147,8 @@ class TMSidebar extends React.Component {
                     {typeof prop.icon === "string" ? (
                       <Icon>{prop.icon}</Icon>
                     ) : (
-                      <prop.icon />
-                    )}
+                        <prop.icon />
+                      )}
                   </ListItemIcon>
                   <ListItemText
                     primary={prop.name}
@@ -354,8 +232,8 @@ class TMSidebar extends React.Component {
                   {typeof prop.icon === "string" ? (
                     <Icon>{prop.icon}</Icon>
                   ) : (
-                    <prop.icon />
-                  )}
+                      <prop.icon />
+                    )}
                 </ListItemIcon>
                 <ListItemText
                   primary={prop.name}
@@ -369,6 +247,9 @@ class TMSidebar extends React.Component {
       </List>
     );
 
+    const ercDashboardLinks = generateLinks(ercRoutes);
+    const icoDashboardLinks = generateLinks(icoRoutes);
+
     const logoNormal =
       classes.logoNormal +
       " " +
@@ -379,14 +260,9 @@ class TMSidebar extends React.Component {
           rtlActive && this.props.miniActive && this.state.miniActive,
         [classes.logoNormalRTL]: rtlActive
       });
-    const logoClasses =
-      classes.logo +
-      " " +
-      cx({
-        [classes.whiteAfter]: bgColor === "white"
-      });
-    var brand = (
-      <div className={logoClasses}>
+
+    let brand = (
+      <div className={classes.logo}>
         <a
           target="_blank"
           rel="noopener noreferrer"
@@ -397,6 +273,7 @@ class TMSidebar extends React.Component {
         </a>
       </div>
     );
+
     const drawerPaper =
       classes.drawerPaper +
       " " +
@@ -405,6 +282,7 @@ class TMSidebar extends React.Component {
           this.props.miniActive && this.state.miniActive,
         [classes.drawerPaperRTL]: rtlActive
       });
+
     const sidebarWrapper =
       classes.sidebarWrapper +
       " " +
@@ -414,6 +292,7 @@ class TMSidebar extends React.Component {
         [classes.sidebarWrapperWithPerfectScrollbar]:
           navigator.platform.indexOf("Win") > -1
       });
+
     return (
       <div ref="mainPanel">
         <Hidden mdUp implementation="css">
@@ -430,11 +309,13 @@ class TMSidebar extends React.Component {
             }}
           >
             {brand}
-            <SidebarWrapper
+            <TMSidebarWrapper
               className={sidebarWrapper}
-              user={user}
-              headerLinks={<HeaderLinks rtlActive={rtlActive} />}
-              links={links}
+              links={ercDashboardLinks}
+            />
+            <TMSidebarWrapper
+              className={sidebarWrapper}
+              links={icoDashboardLinks}
             />
           </Drawer>
         </Hidden>
@@ -450,10 +331,13 @@ class TMSidebar extends React.Component {
             }}
           >
             {brand}
-            <SidebarWrapper
+            <TMSidebarWrapper
               className={sidebarWrapper}
-              user={user}
-              links={links}
+              links={ercDashboardLinks}
+            />
+            <TMSidebarWrapper
+              className={sidebarWrapper}
+              links={icoDashboardLinks}
             />
           </Drawer>
         </Hidden>
@@ -480,7 +364,8 @@ TMSidebar.propTypes = {
     "rose"
   ]),
   logo: PropTypes.string,
-  routes: PropTypes.arrayOf(PropTypes.object)
+  ercRoutes: PropTypes.arrayOf(PropTypes.object),
+  icoRoutes: PropTypes.arrayOf(PropTypes.object)
 };
 
 export default withStyles(tmSidebarStyle)(TMSidebar);
