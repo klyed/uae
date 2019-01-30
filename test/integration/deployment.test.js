@@ -4,7 +4,7 @@ import Web3 from 'web3';
 const mintApi = require('../../src/api/mintApi');
 import fetch from 'node-fetch';
 import { BigNumber } from 'bignumber.js';
-import UAETokenJSON from '../../src/contracts/UAEToken.json';
+import TokenMintERC20MintablePausableTokenJSON from '../../src/contracts/TokenMintERC20MintablePausableToken.json';
 import CMIRPDCrowdsaleJSON from '../../src/contracts/CMIRPDCrowdsale.json';
 
 let web3, accounts;
@@ -20,7 +20,7 @@ function runCrowdsale(crowdsaleArgs) {
     mintApi.deployCrowdsale(icoMaker, crowdsaleArgs).then(crowdsaleReceipt => {
 
       // pause tokens before crowdsale, no one can transfer
-      let tokenInstance = new web3.eth.Contract(UAETokenJSON.abi, crowdsaleArgs[5]);
+      let tokenInstance = new web3.eth.Contract(TokenMintERC20MintablePausableTokenJSON.abi, crowdsaleArgs[5]);
       tokenInstance.methods.pause().send({ from: icoMaker }).then(receipt => {
 
         // wait 3 seconds before first investment
@@ -144,7 +144,7 @@ describe('Deployment tests', function () {
       expect(receipts.crowdsaleReceipt.status).to.be.eq(true);
 
       // pause tokens before crowdsale, no one can transfer
-      let tokenInstance = new web3.eth.Contract(UAETokenJSON.abi, receipts.tokenReceipt.contractAddress);
+      let tokenInstance = new web3.eth.Contract(TokenMintERC20MintablePausableTokenJSON.abi, receipts.tokenReceipt.contractAddress);
       tokenInstance.methods.pause().send({ from: icoMaker }).then(receipt => {
         expect(receipt.status).to.be.eq(true);
 
@@ -244,10 +244,10 @@ describe('Deployment tests', function () {
     });
   });*/
 
-  it('Multi-stage', (done) => {
+  /*it('Multi-stage', (done) => {
     let tokenArgs = ["Token name", "SYM", 18, 0, icoMaker];
     let crowdsaleArgs = [startTime, endTime, 1000, 999, icoMaker, null, web3.utils.toWei('0.1', 'ether'), web3.utils.toWei('0.03', 'ether'), 0];
-    mintApi.deployToken(UAETokenJSON, icoMaker, ...tokenArgs).then((tokenReceipt) => {
+    mintApi.deployToken(TokenMintERC20MintablePausableTokenJSON, icoMaker, ...tokenArgs).then((tokenReceipt) => {
       //console.log(tokenReceipt);
       crowdsaleArgs[5] = tokenReceipt.contractAddress;
       runCrowdsale(crowdsaleArgs).then(() => {
@@ -274,5 +274,5 @@ describe('Deployment tests', function () {
       console.log(e)
       done(new Error(e));
     });
-  });
+  });*/
 });

@@ -39,7 +39,7 @@ describe('TCACrowdsale integration tests', function () {
     done();
   });
 
-  it('Deploy TCACrowdsale contract', (done) => {
+  /*it('Deploy TCACrowdsale contract', (done) => {
     let crowdsaleArgs = [startTime, endTime, 500, icoMaker, null, web3.utils.toWei('1', 'ether'), icoMaker, null];
     mintApi.deployTCACrowdsale(icoMaker, tokenArgs, crowdsaleArgs, tokenServiceFeeETH, crowdsaleServiceFeeETH).then(receipts => {
       expect(receipts.tokenReceipt.status).to.be.eq(true);
@@ -121,5 +121,5 @@ describe('TCACrowdsale integration tests', function () {
     }).catch(e => {
       done(new Error(e));
     });
-  });
+  });*/
 });

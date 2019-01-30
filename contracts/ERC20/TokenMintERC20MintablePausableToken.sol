@@ -1,10 +1,10 @@
 pragma solidity ^0.4.24;
 
-import '../../node_modules/openzeppelin-solidity/contracts/token/ERC20/ERC20Mintable.sol';
-import '../../node_modules/openzeppelin-solidity/contracts/token/ERC20/ERC20Pausable.sol';
+import '../open-zeppelin-contracts/token/ERC20/ERC20Mintable.sol';
+import '../open-zeppelin-contracts/token/ERC20/ERC20Pausable.sol';
 
 /**
- * @title UAEToken
+ * @title TokenMintERC20MintablePausableToken
  * @author TokenMint.io
  * @dev Mintable and pausable ERC20 token with optional functions implemented. 
  * When token is paused, no one can transfer or approve tokens, but more tokens 
@@ -15,7 +15,7 @@ import '../../node_modules/openzeppelin-solidity/contracts/token/ERC20/ERC20Paus
  * For full specification of ERC-20 standard see:
  * https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20.md
  */
-contract UAEToken is ERC20Mintable, ERC20Pausable {
+contract TokenMintERC20MintablePausableToken is ERC20Mintable, ERC20Pausable {
 
     string private _name;
     string private _symbol;
