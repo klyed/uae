@@ -10,14 +10,13 @@ import "perfect-scrollbar/css/perfect-scrollbar.css";
 import withStyles from "@material-ui/core/styles/withStyles";
 
 // core components
-import Header from "components/Header/Header.jsx";
 import Footer from "components/Footer/Footer.jsx";
 import TMSidebar from "components/Sidebar/TMSidebar.jsx";
 
 //import dashboardRoutes from "routes/dashboard.jsx";
 import dashboardRoutes from "routes/tmDashboard.jsx";
 
-import appStyle from "assets/jss/material-dashboard-pro-react/layouts/dashboardStyle.jsx";
+import appStyle from "assets/jss/material-dashboard-pro-react/layouts/tmDashboardStyle.jsx";
 
 import logo from "assets/img/merkle-blue-logo.png";
 
