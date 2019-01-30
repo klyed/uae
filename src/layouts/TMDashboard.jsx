@@ -14,7 +14,8 @@ import Header from "components/Header/Header.jsx";
 import Footer from "components/Footer/Footer.jsx";
 import TMSidebar from "components/Sidebar/TMSidebar.jsx";
 
-import dashboardRoutes from "routes/dashboard.jsx";
+//import dashboardRoutes from "routes/dashboard.jsx";
+import dashboardRoutes from "routes/tmDashboard.jsx";
 
 import appStyle from "assets/jss/material-dashboard-pro-react/layouts/dashboardStyle.jsx";
 
@@ -108,14 +109,6 @@ class TMDashboard extends React.Component {
           {...rest}
         />
         <div className={mainPanel} ref="mainPanel">
-          <Header
-            sidebarMinimize={this.sidebarMinimize.bind(this)}
-            miniActive={this.state.miniActive}
-            routes={dashboardRoutes}
-            handleDrawerToggle={this.handleDrawerToggle}
-            {...rest}
-          />
-          {/* On the /maps/full-screen-maps route we want the map to be on full screen - this is not possible if the content and conatiner classes are present because they have some paddings which would make the map smaller */}
           {this.getRoute() ? (
             <div className={classes.content}>
               <div className={classes.container}>{switchRoutes}</div>
