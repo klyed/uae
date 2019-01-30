@@ -7,7 +7,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 
 import footerStyle from "assets/jss/material-dashboard-pro-react/components/footerStyle";
 
-function Footer({ ...props }) {
+function TMFooter({ ...props }) {
   const { classes, fluid, white } = props;
   var container = cx({
     [classes.container]: !fluid,
@@ -48,11 +48,11 @@ function Footer({ ...props }) {
   );
 }
 
-Footer.propTypes = {
+TMFooter.propTypes = {
   classes: PropTypes.object.isRequired,
   fluid: PropTypes.bool,
   white: PropTypes.bool,
   rtlActive: PropTypes.bool
 };
 
-export default withStyles(footerStyle)(Footer);
+export default withStyles(footerStyle)(TMFooter);

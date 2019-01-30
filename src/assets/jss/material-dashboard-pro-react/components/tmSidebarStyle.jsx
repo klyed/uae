@@ -96,11 +96,6 @@ const tmSidebarStyle = theme => ({
       opacity: ".93"
     }
   },
-  whiteAfter: {
-    "&:after": {
-      backgroundColor: "hsla(0,0%,71%,.3) !important"
-    }
-  },
   drawerPaperMini: {
     width: drawerMiniWidth + "px!important"
   },
@@ -435,7 +430,6 @@ const tmSidebarStyle = theme => ({
   },
   sidebarWrapper: {
     position: "relative",
-    height: "calc(100vh - 75px)",
     overflow: "auto",
     width: "260px",
     zIndex: "4",
@@ -444,7 +438,16 @@ const tmSidebarStyle = theme => ({
     transitionDuration: ".2s, .2s, .35s",
     transitionTimingFunction: "linear, linear, ease",
     color: "inherit",
-    paddingBottom: "30px"
+    paddingBottom: "10px",
+    "&:after": {
+      content: '""',
+      position: "absolute",
+      bottom: "0",
+      height: "1px",
+      right: "15px",
+      width: "calc(100% - 30px)",
+      backgroundColor: "hsla(0,0%,100%,.3)"
+    }
   },
   sidebarWrapperWithPerfectScrollbar: {
     overflow: "hidden !important"

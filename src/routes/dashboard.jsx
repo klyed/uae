@@ -200,6 +200,12 @@ var dashRoutes = [
       }
     ]
   },
+  {
+    path: "/token",
+    name: "ERC Token Generator",
+    icon: WidgetsIcon,
+    component: Wizard
+  },
   { path: "/widgets", name: "Widgets", icon: WidgetsIcon, component: Widgets },
   { path: "/charts", name: "Charts", icon: Timeline, component: Charts },
   { path: "/calendar", name: "Calendar", icon: DateRange, component: Calendar },
