@@ -4,6 +4,9 @@
   "private": true,
   "dependencies": {
     "@babel/runtime": "^7.1.2",
+    "@fortawesome/fontawesome-svg-core": "^1.2.6",
+    "@fortawesome/free-solid-svg-icons": "^5.4.1",
+    "@fortawesome/react-fontawesome": "^0.1.3",
     "@material-ui/core": "3.1.1",
     "@material-ui/icons": "3.0.1",
     "bignumber.js": "^7.2.1",
@@ -17,6 +20,7 @@
     "nouislider": "12.0.0",
     "npm-run-all": "4.1.3",
     "openzeppelin-solidity": "2.0.0",
+    "prop-types": "^15.6.2",
     "perfect-scrollbar": "1.4.0",
     "react": "16.5.2",
     "react-big-calendar": "0.20.1",
@@ -54,7 +58,7 @@
     "deploy-contracts-local": "truffle.cmd migrate --reset --network local",
     "compile:contracts": "truffle.cmd compile --all",
     "copy:contracts": "babel-node src/tools/copyContracts",
-    "contracts-tests": "truffle test ./node_modules/openzeppelin-solidity/test/token/ERC20/ERC20.test.js ./node_modules/openzeppelin-solidity/test/token/ERC20/ERC20Mintable.test.js ./test/contract/TokenMintERC20Token.test.js ./test/contract/TokenMintERC223Token.test.js --network local",
+    "contracts-tests": "truffle test ./test/contract/TokenMintERC223Token.test.js --network local",
     "integration-tests": "mocha --require ignore-styles --reporter spec src/tools/testSetup.js test/integration/*.js"
   },
   "devDependencies": {
@@ -69,10 +73,13 @@
     "@types/markerclustererplus": "2.1.33",
     "ajv": "5.0.0",
     "babel-eslint": "7.2.3",
+    "enzyme": "^3.7.0",
+    "enzyme-adapter-react-16": "^1.6.0",
     "eslint": "4.19.1",
     "eslint-config-prettier": "3.1.0",
     "eslint-plugin-prettier": "2.6.2",
     "eslint-plugin-react": "7.11.1",
+    "eslint-watch": "^4.0.2",
     "prettier": "1.14.3",
     "chai": "^4.2.0",
     "chai-bignumber": "^3.0.0",
@@ -84,6 +91,8 @@
     "mocha": "^5.2.0",
     "node-fetch": "^2.2.0",
     "npm-run-all": "^4.1.3",
+    "redux-mock-store": "^1.5.3",
+    "sinon": "^7.0.0",
     "truffle": "^4.1.14"
   }
 }
